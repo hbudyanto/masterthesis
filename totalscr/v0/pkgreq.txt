@@ -1,0 +1,20 @@
+
+## PROCESSING ##
+
+# package for sum over multiple columns by columns (not needed as melt dcast also found in data.table)
+# http://stackoverflow.com/questions/9723208/aggregate-multiple-variables-simultaneously
+require(reshape2)
+
+# sorting
+# http://stackoverflow.com/questions/1296646/how-to-sort-a-dataframe-by-columns
+
+# converting numeric to date
+# http://stackoverflow.com/questions/14247577/converting-numbers-to-dates-in-r
+
+# for incorporating log in R data
+library(futile.logger)
+
+# for saving all files in data table format
+require(data.table)
+
+## FEATURIZE ##

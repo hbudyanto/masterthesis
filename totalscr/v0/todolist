@@ -1,0 +1,19 @@
+## To do list :
+
+input -> 23 July 2016
+1. Product in Processing_v0.R
+- why there are some monthlies and two-weeklies products in final preprocessing
+- found colours are actually monthlies products - still include as number of transactions are not big
+- atm, treat monthlies, two-weeklies products as others
+
+2. Variables related days -> 23 July 2016 (featurize_v0 both user global feature or item global feature)
+- think a way to normalize (log, hyperpoblic sin transformation, box-cox)
+
+3. Need to think about purchase data <> cold start or warm start scenarios
+
+4. Need to find statistical evidences of days lapsed between one purchase to another -> to determine testing period
+
+5. Look back again at featurize
+- 1. How do they generate testing data (transition from training data and test data)
+- 2. How prediction works ? -prediciting future products or what?
+- 3. Test Coupons / Split between purchased products or test purchased products?

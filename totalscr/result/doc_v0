@@ -1,0 +1,25 @@
+#### EXPERIMENT Step by Step
+made at: 26 July
+file produces : modeling.R, featurize_v0
+
+- get data of user item interactions in certain period(e.g 3 months)
+- store the user interaction features in that period
+
+create user item pairs
+- get all pairs of user and item (pairs)
+_ delete the duplicates
+
+create random sampling of producst to balance the training set
+- random sampling viewers
+
+- check whether target 1 has all the features
+- check target 0 : corresponding features exist or not (get theirs from product & user table)
+
+## note on results :
+- sampling is set at k = 4
+- data0 is attached to feat item and feat users
+- data0 features is attached to feat item, feat users, and feat user dependent (trans)
+- give proportion around 40% (positive) / 60% (negative)
+- best result (eta=0.05, subsample=0.6, colsample=0.2,
+depth=1/2) is overfitting after epoch 6
+

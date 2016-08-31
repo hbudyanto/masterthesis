@@ -1,0 +1,243 @@
+modprod_id,product_id,name,status,category,type,modality,sku,created_at,updated_at,product_type,product_lifecycle,telesales_only,stocked_lens,average_cost,manufacturer,daysperlens,alt_daysperlens,condition,promotional_product,pack_qty
+1,1084,1 Day Acuvue Trueye,1,Dailies,Spherical,Daily,1DAT30,39:29.0,20:25.0,Contact Lenses - Dailies,,0,1,0.4668,Johnson & Johnson,1,,70,0,30
+2,1088,Acuvue Oasys,1,Two Weeklies,Spherical,Two Weekly,ACOA06,39:29.0,19:53.0,Contact Lenses - Monthlies & Other,,0,1,1.9087,Johnson & Johnson,14,7,70,0,6
+3,1096,Air Optix for Astigmatism,1,Torics for Astigmatism,Toric,Monthly,AOTR03,39:29.0,54:24.0,Contact Lenses - Monthlies & Other,,0,0,3.4133,Ciba Vision,30,,70,0,3
+4,1121,FreshLook Colorblends,1,Colours,Spherical,Monthly,FRCB02,39:29.0,08:24.0,Contact Lenses - Monthlies & Other,,0,0,4.29,Ciba Vision,30,,70,0,2
+5,1141,Surevue,1,Monthlies,Spherical,Monthly,SURV06,39:29.0,54:01.0,Contact Lenses - Monthlies & Other,discontinued,0,0,2.19,Johnson & Johnson,30,,70,0,6
+6,1183,Oxysept 1Step,1,Hydrogen Peroxide,,,AMOXY1,39:29.0,12:47.0,Solutions & Eye Care,,0,1,9.99,AMO,,,70,0,1
+7,1202,Boston Simplus,1,Gas Permeable Solutions,,,BOSIMP,39:29.0,42:52.0,Solutions & Eye Care,discontinued,0,1,11.67,Bausch & Lomb,,,70,0,1
+8,1203,Clinitas Hydrate,1,Eye Drops,,,CLHYDR,39:29.0,47:21.0,Solutions & Eye Care,,0,1,1.65,Altacor,,,70,0,1
+9,1219,PreserVision Original Soft Gels,1,Ocular Vitamins,,,PVNOSG,39:29.0,16:03.0,Solutions & Eye Care,,0,1,7.77,Bausch & Lomb,,,70,0,1
+10,1246,Proclear Sphere Vial,1,Telesales Only,,,PCSPV01,39:29.0,58:22.0,Contact Lenses - Monthlies & Other,,1,0,11.99,Coopervision,,,70,0,1
+11,1279,Regard Luxury Soft Lens Travel Bag,1,Travel Packs,,,RTL3,39:29.0,30:25.0,Solutions & Eye Care,,0,1,5,Advanced Eyecare,,,70,0,1
+12,1300,SofLens 59 (Free),1,{Promo} Other,,,SL59_C,39:29.0,56:40.0,{Promo} Other,NULL,0,0,NULL,Bausch & Lomb,30,,69,1,6
+13,1302,Biofinity (Free),1,{Promo} Other,,,BFSM_C,39:29.0,42:34.0,{Promo} Other,NULL,0,1,NULL,Coopervision,30,,69,1,3
+14,1318,Proclear Tailor Made Toric Vial Single Lens,1,Telesales Only,,,PCTMTS01,39:29.0,58:21.0,Contact Lenses - Monthlies & Other,,1,0,18.3,Coopervision,,,70,0,1
+15,1332,Pencil Eye Liner (Hypoallergenic),2,Hypoallegenic Makeup,,,PEL1,39:29.0,02:53.0,Solutions & Eye Care,,0,1,3.28,Eye Care Cosmetics,,,70,0,1
+16,1340,Eye make-up remover emulsion (hypoallergenic),1,Hypoallegenic Makeup,,,EMUR1,39:29.0,38:13.0,Solutions & Eye Care,,0,1,5.43,Eye Care Cosmetics,,,70,0,1
+17,1343,Ophthalmic Dark Circle Cream,1,Hypoallegenic Makeup,,,ODCC1,39:29.0,05:19.0,Solutions & Eye Care,,0,1,7.71,Eye Care Cosmetics,,,70,0,1
+18,1349,Biotrue Duo Pack,1,Multi-purpose Solutions,,,BIOT,39:29.0,21:01.0,Solutions & Eye Care,,0,1,8.4,Bausch & Lomb,,,70,0,1
+19,1360,Biotrue (60 ml) - A Free Gift from GetLenses,1,Other,,,BIOT_C,39:29.0,59:48.0,Other,regular,0,1,9.96,Bausch & Lomb,,,70,0,1
+20,1372,Acuvue Oasys for Presbyopia,1,Two Weeklies,Multifocal,Two Weekly,ACOP06,39:29.0,33:18.0,Contact Lenses - Monthlies & Other,,0,0,2.92,Johnson & Johnson,14,7,70,0,6
+21,1403,Ad-hoc Shipment,1,Other,,,ADHOC,39:29.0,47:18.0,Other,,1,0,NULL,Getoptics,,,70,0,1
+22,1887,Biomedics 1 Day Extra (Free),1,{Promo} Other,,,BM1DE_C,39:29.0,07:31.0,{Promo} Other,,0,0,0.19,Coopervision,1,,70,1,5
+23,2227,Biomedics 1 Day Extra Toric,1,Dailies,Toric,Daily,BM1T30,39:29.0,39:05.0,Contact Lenses - Dailies,,0,0,0.34,Coopervision,1,,70,0,30
+24,2252,Ad-hoc Shipment Ciba,1,Other,,,ADHOCCI,39:29.0,03:17.0,Other,,1,0,NULL,Ciba Vision,,,70,0,1
+25,2266,Renu MPS Multi-Purpose Solution Flat Pack,1,Multi-purpose Solutions,,,RUMPSSFP,39:29.0,27:00.0,Solutions & Eye Care,,0,1,4.95,Bausch & Lomb,,,70,0,1
+26,2273,Eyesiccal,1,Eye Drops,,,EYSCCV,39:29.0,10:16.0,Solutions & Eye Care,discontinued,0,1,5.61,PromoPharma,,,70,0,1
+27,2302,Clariti,1,Monthlies,Spherical,Monthly,CLARM03,39:29.0,12:17.0,Contact Lenses - Monthlies & Other,,0,0,1.6233,Sauflon,30,,70,0,3
+28,1085,1 Day Acuvue,1,Dailies,Spherical,Daily,1DAV90,39:29.0,44:38.0,Contact Lenses - Dailies,,0,0,0.36,Johnson & Johnson,1,,70,0,30
+29,1090,Acuvue 2,1,Two Weeklies,Spherical,Two Weekly,ACV206,39:29.0,13:31.0,Contact Lenses - Monthlies & Other,,0,0,1.675,Johnson & Johnson,14,7,70,0,6
+30,1100,Biofinity Toric,1,Torics for Astigmatism,Toric,Monthly,BFTM03,39:29.0,56:49.0,Contact Lenses - Monthlies & Other,,0,0,2.66,Coopervision,30,,70,0,3
+31,1108,Focus Dailies All Day Comfort,1,Dailies,Spherical,Daily,FCDL30,39:29.0,36:27.0,Contact Lenses - Dailies,,0,1,0.2654,Ciba Vision,1,,70,0,30
+32,1133,PureVision,1,Monthlies,Spherical,Monthly,PVSN03,39:29.0,48:03.0,Contact Lenses - Monthlies & Other,,0,2,1.8767,Bausch & Lomb,30,,70,0,3
+33,1140,SofLens Multifocal,1,Multifocals,Multifocal,Monthly,SOMF63,39:29.0,34:28.0,Contact Lenses - Monthlies & Other,,0,0,4.01,Bausch & Lomb,30,,70,0,3
+34,1144,Quattro,1,Multi-purpose Solutions,,,ABQUAT,39:29.0,27:52.0,Solutions & Eye Care,,0,1,4.36,Abatron,,,70,0,1
+35,1145,Refresh Contacts Bottle,1,Eye Drops,,,AGREFB,39:29.0,26:56.0,Solutions & Eye Care,discontinued,0,1,2.18,Allergan,,,70,0,1
+36,1179,Supranettes,1,Hygiene & Lid Care,,,ALSUPR,39:29.0,02:11.0,Solutions & Eye Care,,0,1,2.2,Alcon,,,70,0,1
+37,1182,Lens Plus Ocupure Saline Large,1,Cleaners & Salines,,,AMLPOL,39:29.0,37:10.0,Solutions & Eye Care,,0,1,1.15,AMO,,,70,0,1
+38,1187,Ultrazyme Universal,1,Cleaners & Salines,,,AMUTUN,39:29.0,22:58.0,Solutions & Eye Care,,0,1,4.54,AMO,,,70,0,1
+39,1188,Blink Contacts Bottle,1,Eye Drops,,,BLCNTB,39:29.0,29:18.0,Solutions & Eye Care,,0,1,1.85,AMO,,,70,0,1
+40,1197,Blink Refreshing Vials,1,Eye Drops,,,BLREFV,39:29.0,40:18.0,Solutions & Eye Care,discontinued,0,1,1.85,AMO,,,70,0,1
+41,1200,Boston Advance Multipack,1,Gas Permeable Solutions,,,BOADVM,39:29.0,43:54.0,Solutions & Eye Care,discontinued,0,1,11.25,Bausch & Lomb,,,70,0,1
+42,1223,Renu MPS Multi-Purpose Solution,1,Multi-purpose Solutions,,,RUMPSS,39:29.0,16:01.0,Solutions & Eye Care,,0,1,4.95,Bausch & Lomb,,,70,0,1
+43,1226,Multi,1,Hydrogen Peroxide,,,SAMULT,39:29.0,33:27.0,Solutions & Eye Care,discontinued,0,1,11.8563,Sauflon,,,70,0,1
+44,1262,Ocuvite Complete,1,Ocular Vitamins,,,BLOCCO,39:29.0,47:48.0,Solutions & Eye Care,regular,0,1,5,Bausch & Lomb,,,70,0,1
+45,1277,Regard Contact Lens Solution 3 Month Pack,1,Multi-purpose Solutions,,,R3MP,39:29.0,46:13.0,Solutions & Eye Care,,0,1,12,Advanced Eyecare,,,70,0,1
+46,1319,Boston RGP Contact Lens Case,1,Hygiene & Lid Care,,,BOLC1,39:29.0,58:52.0,Solutions & Eye Care,,0,1,2,Bausch & Lomb,,,70,0,1
+47,1328,SofLens 66 Toric (Free),1,{Promo} Other,,,S66T_C,39:29.0,14:02.0,{Promo} Other,,0,0,NULL,Bausch & Lomb,30,,70,1,6
+48,1363,Opti-Free Puremoist (formerly Evermoist) Flight Pack,1,Travel Packs,,,OFEFP,39:29.0,33:38.0,Solutions & Eye Care,,0,1,3.11,Alcon,,,70,0,1
+49,2272,Avaira Toric (Free),1,{Promo} Other,,,AVMT03_C,39:29.0,26:53.0,{Promo} Other,,0,0,NULL,Coopervision,,,70,1,3
+50,2277,Artelac Rebalance,1,Dry Eye Treatments,,,ARTLCR,39:29.0,17:47.0,Solutions & Eye Care,,0,1,3.3,Bausch & Lomb,,,70,0,1
+51,2315,Aura 1 Day,1,Dailies,Spherical,Daily,AU1DAY,39:29.0,39:11.0,Contact Lenses - Dailies,discontinued,0,0,0.1317,R&L Vision,1,,70,0,20
+52,2318,Aura Monthly UV,1,Monthlies,Spherical,Monthly,AUMOUV,39:29.0,23:09.0,Contact Lenses - Monthlies & Other,,0,2,1.8,R&L Vision,30,,70,0,6
+53,2321,INNOVA ColorMaker Cosmetic Lenses,2,Colours,Spherical,Monthly,INCOCO,39:29.0,03:05.0,Contact Lenses - Monthlies & Other,regular,0,NULL,4.29,Innova Vision,30,,70,0,2
+54,2327,Ad-hoc Product,1,Other,,,ADHOCPROD,39:29.0,57:52.0,Other,,1,NULL,NULL,Getoptics,,,70,0,1
+55,1092,Air Optix Aqua,1,Monthlies,Spherical,Monthly,AOAQ03,39:29.0,08:02.0,Contact Lenses - Monthlies & Other,,0,1,2.3217,Ciba Vision,30,,70,0,3
+56,1093,Air Optix Aqua Multifocal,1,Multifocals,Multifocal,Monthly,AOMF03,39:29.0,01:14.0,Contact Lenses - Monthlies & Other,,0,0,4.42,Ciba Vision,30,,70,0,3
+57,1094,Air Optix Night & Day Aqua,1,Monthlies,Spherical,Monthly,AOND03,39:29.0,07:45.0,Contact Lenses - Monthlies & Other,,0,1,3.759,Ciba Vision,30,,70,0,3
+58,1118,Frequency 55 Aspheric,1,Monthlies,Spherical,Monthly,FQAS03,39:29.0,08:55.0,Contact Lenses - Monthlies & Other,,0,0,0.98,Coopervision,30,,70,0,3
+59,1124,Images Coloured Lenses,2,Other,,,IMAG02,39:29.0,52:54.0,Other,discontinued,0,0,3.45,Coopervision,30,,70,0,2
+60,1127,Proclear EP (Early presbyopia),1,Multifocals,Multifocal,Monthly,PCEP03,39:29.0,46:45.0,Contact Lenses - Monthlies & Other,,0,0,1.5,Coopervision,30,,70,0,3
+61,1135,SofLens Toric,1,Torics for Astigmatism,Toric,Monthly,S66T03,39:29.0,42:32.0,Contact Lenses - Monthlies & Other,,0,0,2.1633,Bausch & Lomb,30,,70,0,3
+62,1138,SofLens 38,1,Monthlies,Spherical,Monthly,SL3806,39:29.0,10:25.0,Contact Lenses - Monthlies & Other,,0,0,1.335,Bausch & Lomb,30,,70,0,6
+63,1178,Clens 100,1,Eye Drops,,,ALC100,39:29.0,00:16.0,Solutions & Eye Care,,0,1,3.46,Alcon,,,70,0,1
+64,1186,Total Care Multipack (Solution & Cleaner),1,Gas Permeable Solutions,,,AMTCMP,39:29.0,58:17.0,Solutions & Eye Care,,0,1,15.24,AMO,,,70,0,1
+65,1201,Boston Advance Conditioning Solution,1,Gas Permeable Solutions,,,BOADVS,39:29.0,43:45.0,Solutions & Eye Care,,0,1,3.11,Bausch & Lomb,,,70,0,1
+66,1207,Complete Travel Pack,1,Travel Packs,,,CPMPST,39:29.0,53:07.0,Solutions & Eye Care,discontinued,0,1,1.51,AMO,,,70,0,1
+67,1218,PreserVision Lutein Soft Gels,1,Ocular Vitamins,,,PVNLSG,39:29.0,28:41.0,Solutions & Eye Care,,0,1,7.77,Bausch & Lomb,,,70,0,1
+68,1227,Synergi,1,Multi-purpose Solutions,,,SASYNI,39:29.0,01:41.0,Solutions & Eye Care,,0,1,13.405,Sauflon,,,70,0,1
+69,1228,Boston Simplus Flight Pack,1,Travel Packs,,,BOSIMF,39:29.0,48:59.0,Solutions & Eye Care,,0,1,4.58,Bausch & Lomb,,,70,0,1
+70,1270,Optrex Multi Action Eye Wash,1,Eye Wash & Sprays,,,OPE300,39:29.0,53:09.0,Solutions & Eye Care,discontinued,0,1,3.76,Optrex,,,70,0,1
+71,1297,Frequency 55 Aspheric (Free),1,{Promo} Other,,,FQAS_C,39:29.0,17:32.0,{Promo} Other,,0,0,NULL,Coopervision,30,,69,1,3
+72,1312,PureVision Multifocal (Free),1,{Promo} Other,,,PVMF_C,39:29.0,35:45.0,{Promo} Other,,0,0,NULL,Bausch & Lomb,30,,69,1,3
+73,1317,1 Day Acuvue Moist for Astigmatism,1,Dailies,Toric,Daily,A1DMA,39:29.0,43:53.0,Contact Lenses - Dailies,,0,0,0.5023,Johnson & Johnson,1,,70,0,30
+74,1333,Fluid Eyeliner (Hypoallergenic),1,Hypoallegenic Makeup,,,FEL1,39:29.0,25:08.0,Solutions & Eye Care,,0,1,5.97,Eye Care Cosmetics,,,70,0,1
+75,1356,OtÃ© Clean (Crystal Cleaner replacement),1,Cleaners & Salines,,,EECC,39:29.0,21:04.0,Solutions & Eye Care,,0,1,3.31,OtÃ© Pharma Sol,,,70,0,1
+76,1357,Blephasol,1,Hygiene & Lid Care,,,BLEPHA1,39:29.0,25:03.0,Solutions & Eye Care,,0,1,6.17,SpectrumThea,,,70,0,1
+77,1882,Biomedics 1 Day Extra,1,Dailies,Spherical,Daily,BM1DE,39:29.0,34:44.0,Contact Lenses - Dailies,,0,0,0.16,Coopervision,1,,70,0,30
+78,1888,Proclear 1 Day Multifocal,1,Dailies,Multifocal,Daily,PC1DM,39:29.0,44:08.0,Contact Lenses - Dailies,,0,0,0.36,Coopervision,1,,70,0,30
+79,2301,Clariti 1day,1,Dailies,Spherical,Daily,CLAR1DY30,39:29.0,40:10.0,Contact Lenses - Dailies,,0,0,0.355,Sauflon,1,,70,0,30
+80,2307,Eye Tabs,2,Ocular Vitamins,,,ALETAB,39:29.0,30:03.0,Solutions & Eye Care,,0,1,10,Altacor,,,70,0,1
+81,2308,everclear 1 DAY (Trial Pack),1,Dailies,Spherical,Daily,EVCLRS5,39:29.0,31:58.0,Contact Lenses - Dailies,,0,1,NULL,Pegavision,1,,70,0,5
+82,1102,Biomedics 1 Day Toric,1,Dailies,Toric,Daily,BM1T30_OLD,39:29.0,08:26.0,Contact Lenses - Dailies,discontinued,0,NULL,0.39,Coopervision,1,,70,0,30
+83,1110,Focus Visitint,2,Other,,,FCMT06,39:29.0,46:33.0,Other,discontinued,0,NULL,0.9733,Ciba Vision,30,,70,0,6
+84,1113,Focus Dailies Toric,1,Dailies,Toric,Daily,FDT130,39:29.0,43:10.0,Contact Lenses - Dailies,,0,2,0.3646,Ciba Vision,1,,70,0,30
+85,1119,Frequency Xcel Toric,1,Torics for Astigmatism,Toric,Monthly,FQET03,39:29.0,07:58.0,Contact Lenses - Monthlies & Other,,0,0,2.3,Coopervision,30,,70,0,3
+86,1120,Frequency Xcel Toric XR,1,Torics for Astigmatism,Toric,Monthly,FQEX03,39:29.0,46:30.0,Contact Lenses - Monthlies & Other,,0,0,4.38,Coopervision,30,,70,0,3
+87,1126,Proclear,1,Monthlies,Spherical,Monthly,PCCT03,39:29.0,58:52.0,Contact Lenses - Monthlies & Other,,0,1,1.11,Coopervision,30,,70,0,3
+88,1130,Precision UV,1,Monthlies,Spherical,Monthly,PRUV03,39:29.0,20:07.0,Contact Lenses - Monthlies & Other,discontinued,0,NULL,1.45,Ciba Vision,30,,70,0,3
+89,1134,PureVision Toric,1,Torics for Astigmatism,Toric,Monthly,PVTO03,39:29.0,47:16.0,Contact Lenses - Monthlies & Other,,0,0,3.2667,Bausch & Lomb,30,,70,0,6
+90,1185,Total Care Wetting ,1,Gas Permeable Solutions,,,AMTCWE,39:29.0,06:57.0,Solutions & Eye Care,,0,1,2.58,AMO,,,70,0,1
+91,1190,EasySept,1,Hydrogen Peroxide,,,BLEASP,39:29.0,12:57.0,Solutions & Eye Care,discontinued,0,1,6.86,Bausch & Lomb,,,70,0,1
+92,1204,Clinitas Soothe,1,Eye Drops,,,CLSTHE,39:29.0,48:25.0,Solutions & Eye Care,,0,1,2.85,Altacor,,,70,0,1
+93,1206,Complete Multi-Purpose Solution,1,Multi-purpose Solutions,,,CPMPSB,39:29.0,51:19.0,Solutions & Eye Care,discontinued,0,1,6.5,AMO,,,70,0,1
+94,1208,AOsept Plus,1,Hydrogen Peroxide,,,CVAOSP,39:29.0,44:23.0,Solutions & Eye Care,discontinued,0,1,8.8,Ciba Vision,,,70,0,1
+95,1211,Focus Aquify,1,Other,,,FCAQFY,39:29.0,57:02.0,Other,discontinued,0,1,3.06,Ciba Vision,,,70,0,1
+96,1214,Opti-Free Express Duo Pack,1,Multi-purpose Solutions,,,OFEXPR,39:29.0,37:13.0,Solutions & Eye Care,,0,1,6.83,Alcon,,,70,0,1
+97,1225,Delta Multipack,1,Gas Permeable Solutions,,,SADELT,39:29.0,33:08.0,Solutions & Eye Care,,0,1,14.78,Sauflon,,,70,0,1
+98,1251,Lunelle ES70 aka Spherique,1,Telesales Only,,,LES70S01,39:29.0,12:11.0,Contact Lenses - Monthlies & Other,,1,0,15.95,Coopervision,,,70,0,1
+99,1278,Regard K RGP contact lens solution 3 Month Pack,1,Gas Permeable Solutions,,,RRGP3,39:29.0,40:19.0,Solutions & Eye Care,,0,1,12,Advanced Eyecare,,,70,0,1
+100,1280,Regard K RGP Solution Luxury Travel Bag,1,Travel Packs,,,RRGPT,39:29.0,19:59.0,Solutions & Eye Care,,0,1,5,Advanced Eyecare,,,70,0,1
+101,1291,Soflens Daily Disposable (Free),1,{Promo} Other,,,SL1D_C,39:29.0,46:18.0,{Promo} Other,,0,1,NULL,Bausch & Lomb,1,,70,1,30
+102,1303,Frequency Xcel Toric (Free),1,{Promo} Other,,,FQET_C,39:29.0,38:44.0,{Promo} Other,NULL,0,0,NULL,Coopervision,30,,69,1,3
+103,1310,PureVision (Free),1,{Promo} Other,,,PVSN_C,39:29.0,07:12.0,{Promo} Other,,0,1,NULL,Bausch & Lomb,30,,70,1,3
+104,1314,Proclear EP (Free),1,{Promo} Other,,,PCEP_C,39:29.0,49:06.0,{Promo} Other,,0,0,NULL,Coopervision,30,,69,1,3
+105,2275,Eye Logic,1,Eye Wash & Sprays,,,EYELGC,39:29.0,09:28.0,Solutions & Eye Care,,0,1,6.51,Optima Medical Swiss AG,,,70,0,1
+106,2298,Dailies Total 1,1,Dailies,Spherical,Daily,TOT1LENS30,39:29.0,10:43.0,Contact Lenses - Dailies,,0,0,0.5463,Ciba Vision,1,,70,0,30
+107,2309,everclear 1 DAY (Free Trial Pack),1,{Promo} Dailies,Spherical,Daily,EVCLRF5,39:29.0,03:11.0,{Promo} Contact Lenses - Dailies,,0,1,NULL,Pegavision,1,,70,0,5
+108,2313,Solo Sept 2 Month Pack,1,Hydrogen Peroxide,,,SOSE2M,39:29.0,32:36.0,Solutions & Eye Care,discontinued,0,1,NULL,R&L Vision,,,70,0,1
+109,1083,1 Day Acuvue Moist,1,Dailies,Spherical,Daily,1DAM90,39:29.0,21:39.0,Contact Lenses - Dailies,,0,1,0.3681,Johnson & Johnson,1,,70,0,30
+110,1103,Biomedics 55 Evolution,1,Monthlies,Spherical,Monthly,BM5503,39:29.0,10:04.0,Contact Lenses - Monthlies & Other,,0,0,0.85,Coopervision,30,,70,0,3
+111,1106,Expressions Colors,1,Colours,Spherical,Monthly,EXCL03,39:29.0,42:40.0,Contact Lenses - Monthlies & Other,,0,0,2.3,Coopervision,30,,70,0,3
+112,1115,FreshLook Colors,1,Colours,Spherical,Monthly,FLCL02,39:29.0,09:38.0,Contact Lenses - Monthlies & Other,NULL,0,0,4.29,Ciba Vision,30,,70,0,2
+113,1122,FreshLook Dimensions,1,Colours,Spherical,Monthly,FRDI02,39:29.0,19:45.0,Contact Lenses - Monthlies & Other,,0,0,4.29,Ciba Vision,30,,70,0,2
+114,1137,Soflens Daily for Astigmatism,1,Dailies,Toric,Daily,SL1T30,39:29.0,37:48.0,Contact Lenses - Dailies,,0,0,0.373,Bausch & Lomb,1,,70,0,30
+115,1146,Refresh Contacts Vials,1,Eye Drops,,,AGREFV,39:29.0,28:00.0,Solutions & Eye Care,,0,1,2.18,Allergan,,,70,0,1
+116,1194,Blink-n-clean,1,Eye Drops,,,BLNCLN,39:29.0,27:01.0,Solutions & Eye Care,,0,1,1.74,AMO,,,70,0,1
+117,1195,Ocuvite Lutein,1,Ocular Vitamins,,,BLOCLU,39:29.0,28:25.0,Solutions & Eye Care,,0,1,4.4,Bausch & Lomb,,,70,0,1
+118,1205,Clinitas Ultra 3,1,Dry Eye Treatments,,,CLULT3,39:29.0,50:42.0,Solutions & Eye Care,discontinued,0,1,3.15,Altacor,,,70,0,1
+119,1210,Solocare Aqua,1,Multi-purpose Solutions,,,FCAQAU,39:29.0,41:29.0,Solutions & Eye Care,,0,1,5.75,Menicon,,,70,0,1
+120,1235,Proclear Multifocal Toric,1,Torics for Astigmatism,Toric,Monthly,PCMT03,39:29.0,39:35.0,Contact Lenses - Monthlies & Other,,0,0,6.95,Coopervision,30,,70,0,3
+121,1243,Hydron Omniflex,1,Telesales Only,,,HYOF01,39:29.0,57:46.0,Contact Lenses - Monthlies & Other,,1,0,5.8,Coopervision,,,70,0,1
+122,1245,Hydron Omniflex Toric,1,Telesales Only,,,HYOFT01,39:29.0,20:43.0,Contact Lenses - Monthlies & Other,,1,0,16,Coopervision,,,70,0,1
+123,1295,Biomedics 55 Evolution (Free),1,{Promo} Other,,,BM55_C,39:29.0,15:47.0,{Promo} Other,,0,0,NULL,Coopervision,30,,69,1,3
+124,1301,Avaira (Free),1,{Promo} Other,,,AVSM_C,39:29.0,30:02.0,{Promo} Other,,0,0,NULL,Coopervision,30,,69,1,3
+125,1304,Proclear Compatibles Toric (Free),1,{Promo} Other,,,PCTO_C,39:29.0,20:28.0,{Promo} Other,,0,0,NULL,Coopervision,30,,69,1,3
+126,1321,Hydron Z6 Tint,1,Telesales Only,,,HYZ6TI01,39:29.0,24:41.0,Contact Lenses - Monthlies & Other,,1,0,25,CLPL,,,70,0,1
+127,1327,Soflens Daily for Astigmatism (Free),1,{Promo} Other,,,SL1T_C,39:29.0,13:57.0,{Promo} Other,,0,0,NULL,Bausch & Lomb,1,,70,1,30
+128,1331,Hycosan Plus Eye Drops,1,Eye Drops,,,HPED10,39:29.0,01:25.0,Solutions & Eye Care,,0,1,6.22,Scope Healthcare,,,70,0,1
+129,1335,Long Lash Mascara (Hypoallergenic),1,Hypoallegenic Makeup,,,LLM1,39:29.0,27:26.0,Solutions & Eye Care,,0,1,7.02,Eye Care Cosmetics,,,70,0,1
+130,1337,Eye Shadow Cream (High Tolerance Hypoallergenic),1,Hypoallegenic Makeup,,,ESC1,39:29.0,22:19.0,Solutions & Eye Care,,0,1,5.78,Eye Care Cosmetics,,,70,0,1
+131,1373,PureVision2,1,Monthlies,Spherical,Monthly,PUREV2,39:29.0,29:40.0,Contact Lenses - Monthlies & Other,,0,0,2.6133,Bausch & Lomb,30,,70,0,3
+132,2278,Artelac Nighttime Gel,1,Dry Eye Treatments,,,ARTLCN,39:29.0,37:17.0,Solutions & Eye Care,discontinued,0,1,2.44,Bausch & Lomb,,,70,0,1
+133,2306,Eye Bar,1,Ocular Vitamins,,,ALEBAR,39:29.0,13:05.0,Solutions & Eye Care,,0,1,10,Altacor,,,70,0,1
+134,2326,Prescription Swimming Goggles,1,Other,,,PRSWGO,39:29.0,40:22.0,Other,,1,0,1.8,Gator Caiman ,,,70,0,1
+135,2338,Air Optix Colors,1,Colours,Spherical,Monthly,AOCO02,39:29.0,49:57.0,Contact Lenses - Monthlies & Other,,0,0,2.3217,Ciba Vision,30,,70,0,2
+136,1086,Acuvue Advance for Astigmatism,1,Two Weeklies,Toric,Two Weekly,ACAA06,39:29.0,44:35.0,Contact Lenses - Monthlies & Other,,0,0,2.465,Johnson & Johnson,14,7,70,0,6
+137,1117,Frequency 55,1,Monthlies,Spherical,Monthly,FQ5503,39:29.0,39:45.0,Contact Lenses - Monthlies & Other,,0,0,0.86,Coopervision,30,,70,0,3
+138,1128,Proclear Multifocal,1,Multifocals,Multifocal,Monthly,PCMF03,39:29.0,44:30.0,Contact Lenses - Monthlies & Other,,0,0,3.5,Coopervision,30,,70,0,3
+139,1192,Blink Intensive Tears Bottle,1,Eye Drops,,,BLINTB,39:29.0,24:28.0,Solutions & Eye Care,,0,1,2,AMO,,,70,0,1
+140,1222,Renu MPS Multi-Purpose Flight Pack,1,Travel Packs,,,RUMPSF,39:29.0,32:42.0,Solutions & Eye Care,,0,1,2.83,Bausch & Lomb,,,70,0,1
+141,1224,All In One Light,1,Multi-purpose Solutions,,,SAAIOL,39:29.0,06:31.0,Solutions & Eye Care,,0,1,10.96,Sauflon,,,70,0,1
+142,1232,Proclear Toric XR,1,Torics for Astigmatism,Toric,Monthly,PCTX03,39:29.0,09:28.0,Contact Lenses - Monthlies & Other,,0,0,5.5,Coopervision,30,,70,0,3
+143,1233,Proclear Multifocal XR,1,Multifocals,Multifocal,Monthly,PCMX03,39:29.0,00:22.0,Contact Lenses - Monthlies & Other,,0,0,5.64,Coopervision,30,,70,0,3
+144,1244,Hydron Z6,1,Telesales Only,,,HYZ601,39:29.0,49:07.0,Contact Lenses - Monthlies & Other,,1,0,5.25,Coopervision,,,70,0,1
+145,1258,Boston Advance Cleaner,1,Gas Permeable Solutions,,,BOADVC,39:29.0,17:10.0,Solutions & Eye Care,,0,1,3.11,Bausch & Lomb,,,70,0,1
+146,1284,Barrel Contact Lens Case,1,Hygiene & Lid Care,,,BCLC1,39:29.0,29:56.0,Solutions & Eye Care,,0,1,1,Vision Direct,,,70,0,1
+147,1287,Opti-Free RepleniSH Flight Pack,1,Travel Packs,,,OFRRP6,39:29.0,22:40.0,Solutions & Eye Care,,0,1,2.01,Alcon,,,70,0,1
+148,1299,Proclear Compatibles (Free),1,{Promo} Other,,,PCCT_C,39:29.0,12:49.0,{Promo} Other,,0,1,NULL,Coopervision,30,,69,1,3
+149,1316,ICaps One-A-Day,1,Ocular Vitamins,,,IC1AD,39:29.0,46:49.0,Solutions & Eye Care,,0,1,6.91,Alcon,,,70,0,1
+150,1320,Hydron Z6 Toric,1,Telesales Only,,,HYZ6T01,39:29.0,55:56.0,Contact Lenses - Monthlies & Other,,1,0,16,Coopervision,,,70,0,1
+151,1330,Hycosan Eye Drops,1,Eye Drops,,,HED12,39:29.0,59:28.0,Solutions & Eye Care,,0,1,5.65,Scope Healthcare,,,70,0,1
+152,1367,Hycosan Extra Eye Drops,1,Eye Drops,,,HEED75,39:29.0,05:17.0,Solutions & Eye Care,,0,1,5.65,Scope Healthcare,,,70,0,1
+153,1376,PureVision2 (Free),1,{Promo} Other,,,PUREV2_C,39:29.0,23:58.0,{Promo} Other,,0,0,2.62,Bausch & Lomb,30,,70,1,3
+154,1402,Biomedics Toric (Free),1,{Promo} Other,,,BMTR03_C,39:29.0,12:15.0,{Promo} Other,,0,0,NULL,Coopervision,30,,70,1,3
+155,1881,Biofinity Multifocal (Free),1,{Promo} Other,,,BIOMF_C,39:29.0,43:29.0,{Promo} Other,,0,0,4.75,Coopervision,30,,70,1,3
+156,2269,Avaira Toric,1,Torics for Astigmatism,Toric,Monthly,AVMT03,39:29.0,27:40.0,Contact Lenses - Monthlies & Other,,0,0,2,Coopervision,30,,70,0,3
+157,2322,Multi-Use,1,Multi-purpose Solutions,,,MULUSE,39:29.0,39:18.0,Solutions & Eye Care,discontinued,0,1,4.36,Vision Direct,,,70,0,1
+158,2325,Multi-Use PLUS Travel Size,1,Multi-purpose Solutions,,,MUUSPT,39:29.0,40:02.0,Solutions & Eye Care,discontinued,0,1,4.36,Vision Direct,,,70,0,1
+159,2350,Wet Therapy Eye Drops,1,Eye Drops,,,WTDED,39:29.0,05:22.0,Solutions & Eye Care,,0,1,2.18,Mid-Optic,,,70,0,1
+160,2364,Biotrue ONEDay for Presbyopia,1,Dailies,Multifocal,Daily,BTP1D30,39:29.0,41:43.0,Contact Lenses - Dailies,NULL,0,0,0.566,Bausch & Lomb,1,NULL,70,0,30
+161,1087,Acuvue Advance,1,Two Weeklies,Spherical,Two Weekly,ACAD06,39:29.0,57:12.0,Contact Lenses - Monthlies & Other,,0,1,1.735,Johnson & Johnson,14,7,70,0,6
+162,1089,Acuvue Oasys for Astigmatism,1,Two Weeklies,Toric,Two Weekly,ACOT06,39:29.0,29:52.0,Contact Lenses - Monthlies & Other,,0,0,2.7283,Johnson & Johnson,14,7,70,0,6
+163,1098,Avaira,1,Monthlies,Spherical,Monthly,AVSM03,39:29.0,15:15.0,Contact Lenses - Monthlies & Other,,0,0,1.52,Coopervision,30,,70,0,3
+164,1104,Biomedics Toric,1,Torics for Astigmatism,Toric,Monthly,BMTR03,39:29.0,47:41.0,Contact Lenses - Monthlies & Other,,0,0,2.29,Coopervision,30,,70,0,3
+165,1116,Focus Dailies Progressive,1,Dailies,Multifocal,Daily,FPDL30,39:29.0,06:08.0,Contact Lenses - Dailies,,0,1,0.41,Ciba Vision,1,,70,0,30
+166,1136,Soflens Daily Disposable,1,Dailies,Spherical,Daily,SL1D30,39:29.0,40:05.0,Contact Lenses - Dailies,,0,1,0.18,Bausch & Lomb,1,,70,0,30
+167,1139,SofLens 59,1,Monthlies,Spherical,Monthly,SL5906,39:29.0,32:31.0,Contact Lenses - Monthlies & Other,,0,0,0.9667,Bausch & Lomb,30,,70,0,6
+168,1193,Blink Intensive Tears Vials,1,Eye Drops,,,BLINTV,39:29.0,57:06.0,Solutions & Eye Care,discontinued,0,1,2.2,AMO,,,70,0,1
+169,1196,Blink Refreshing Bottle,1,Eye Drops,,,BLREFB,39:29.0,33:37.0,Solutions & Eye Care,discontinued,0,1,1.82,AMO,,,70,0,1
+170,1252,Lunelle ES70 with Handling Tint,1,Telesales Only,,,LES70H01,39:29.0,22:06.0,Contact Lenses - Monthlies & Other,,1,0,16.25,Coopervision,,,70,0,1
+171,1269,Optrex Actimist Eye Spray,1,Eye Wash & Sprays,,,OPAM10,39:29.0,50:31.0,Solutions & Eye Care,discontinued,0,1,9.41,Optrex,,,70,0,1
+172,1283,Anti Bacterial Handwash (500ml),1,Other,,,ABH500,39:29.0,34:34.0,Other,discontinued,0,1,2.11,Generic,,,70,0,1
+173,1285,Standard contact lens case,1,Hygiene & Lid Care,,,SCLC1,39:29.0,30:57.0,Solutions & Eye Care,,0,1,1.35,Generic,,,70,0,1
+174,1286,Focus Dailies All Day Comfort (Free),1,{Promo} Other,,,FCDL_C,39:29.0,34:26.0,{Promo} Other,,0,1,NULL,Ciba Vision,1,,70,1,30
+175,1306,Biofinity Toric (Free),1,{Promo} Other,,,BFTM_C,39:29.0,10:19.0,{Promo} Other,NULL,0,0,NULL,Coopervision,30,,70,1,3
+176,1311,Proclear Multifocal (Free),1,{Promo} Other,,,PCMF_C,39:29.0,07:30.0,{Promo} Other,,0,0,NULL,Coopervision,30,,69,1,3
+177,1358,Blephaclean,1,Hygiene & Lid Care,,,BLEPHA2,39:29.0,28:55.0,Solutions & Eye Care,,0,1,4.67,SpectrumThea,,,70,0,1
+178,1359,Blephagel Hypoallergenic Gel,1,Hygiene & Lid Care,,,BLEPHA3,39:29.0,30:42.0,Solutions & Eye Care,,0,1,6.17,SpectrumThea,,,70,0,1
+179,1392,PureVision2 for Astigmatism,1,Torics for Astigmatism,Toric,Monthly,PUREV2A,39:29.0,48:19.0,Contact Lenses - Monthlies & Other,,0,0,3.4533,Bausch & Lomb,30,,70,0,3
+180,2251,Hycosan Eye Drops (A Free Gift From GetLenses),1,Other,,,HYCO_C,39:29.0,48:29.0,Other,,0,1,5.65,Scope Healthcare,,,70,0,1
+181,2254,Ad-hoc Shipment B&L,1,Other,,,ADHOCBL,39:29.0,58:34.0,Other,,1,0,NULL,Bausch & Lomb,,,70,0,1
+182,2296,Complete RevitaLens,1,Multi-purpose Solutions,,,CPRVTL,39:29.0,24:02.0,Solutions & Eye Care,NULL,0,1,11.63,AMO,,,70,0,1
+183,2297,Complete RevitaLens Travel Pack,1,Travel Packs,,,CPRVTT,39:29.0,14:43.0,Solutions & Eye Care,discontinued,0,1,1.83,AMO,,,70,0,1
+184,2303,everclear 1 DAY,1,Dailies,Spherical,Daily,EVCLR30,39:29.0,22:53.0,Contact Lenses - Dailies,,0,1,0.1317,Pegavision,1,,70,0,30
+185,2311,FreshLook Illuminate,1,Colours,Spherical,Monthly,FRIL02,39:29.0,34:46.0,Contact Lenses - Monthlies & Other,,0,0,NULL,Ciba Vision,1,,70,0,10
+186,2334,MyDay,1,Dailies,Spherical,Daily,MYDY30,39:29.0,57:33.0,Contact Lenses - Dailies,,0,0,0.21,Coopervision,1,,70,0,30
+187,2341,Dailies AquaComfort Plus Toric,1,Dailies,Toric,Daily,FACT30,39:29.0,25:42.0,Contact Lenses - Dailies,,0,0,0.2752,Ciba Vision,1,,70,0,30
+188,1099,Biofinity,1,Monthlies,Spherical,Monthly,BFSM03,39:29.0,34:49.0,Contact Lenses - Monthlies & Other,,0,2,1.8,Coopervision,30,,70,0,3
+189,1109,Dailies AquaComfort Plus,1,Dailies,Spherical,Daily,FCDP30,39:29.0,01:58.0,Contact Lenses - Dailies,,0,1,0.2752,Ciba Vision,1,,70,0,30
+190,1114,FreshLook One Day,1,Dailies,Spherical,Daily,FLCD10,39:29.0,28:16.0,Contact Lenses - Dailies,,0,0,0.614,Ciba Vision,1,,70,0,10
+191,1125,Proclear 1 Day,1,Dailies,Spherical,Daily,PC1D30,39:29.0,27:56.0,Contact Lenses - Dailies,,0,1,0.21,Coopervision,1,,70,0,30
+192,1129,Proclear Toric,1,Torics for Astigmatism,Toric,Monthly,PCTO03,39:29.0,41:11.0,Contact Lenses - Monthlies & Other,,0,0,2.34,Coopervision,30,,70,0,3
+193,1132,PureVision Multifocal,1,Multifocals,Multifocal,Monthly,PVMF03,39:29.0,40:23.0,Contact Lenses - Monthlies & Other,,0,0,4.1167,Bausch & Lomb,30,,70,0,3
+194,1142,Amiclair,1,Cleaners & Salines,,,ABAMIC,39:29.0,37:02.0,Solutions & Eye Care,,0,1,4.46,Abatron,,,70,0,1
+195,1184,Total Care Cleaner,1,Gas Permeable Solutions,,,AMTCCL,39:29.0,01:25.0,Solutions & Eye Care,,0,1,2.5,AMO,,,70,0,1
+196,1189,Blink Contacts Vials,1,Eye Drops,,,BLCNTV,39:29.0,22:12.0,Solutions & Eye Care,,0,1,1.85,AMO,,,70,0,1
+197,1198,Sensitive Eyes,1,Cleaners & Salines,,,BLSEEY,39:29.0,26:43.0,Solutions & Eye Care,,0,1,1.25,Bausch & Lomb,,,70,0,1
+198,1212,Lid Care Wipes,1,Hygiene & Lid Care,,,NOPLCW,39:29.0,43:48.0,Solutions & Eye Care,discontinued,0,1,2.3,Novartis Ophthalmics,,,70,0,1
+199,1216,Opti-Free RepleniSH Duo Pack,1,Multi-purpose Solutions,,,OFREPL,39:29.0,03:29.0,Solutions & Eye Care,,0,1,6.74,Alcon,,,70,0,1
+200,1220,PreserVision Tablets,1,Ocular Vitamins,,,PVNTAB,39:29.0,02:27.0,Solutions & Eye Care,,0,1,8.85,Bausch & Lomb,,,70,0,1
+201,1247,Proclear Sphere RX Vial,1,Telesales Only,,,PCSRV01,39:29.0,56:54.0,Contact Lenses - Monthlies & Other,,1,0,10.85,Coopervision,,,70,0,1
+202,1274,Optrex Dry Eye Drops,1,Eye Drops,,,OPDEBT,39:29.0,11:57.0,Solutions & Eye Care,discontinued,0,1,3.06,Optrex,,,70,0,1
+203,1281,Reset Eye Drops,1,Eye Drops,,,AERC10,39:29.0,26:41.0,Solutions & Eye Care,discontinued,0,1,3.4,Advanced Eyecare,,,70,0,1
+204,1294,Proclear 1 Day (Free),1,{Promo} Other,,,PC1D_C,39:29.0,14:49.0,{Promo} Other,,0,1,NULL,Coopervision,1,,69,1,30
+205,1296,Frequency 55 (Free),1,{Promo} Other,,,FQ55_C,39:29.0,16:40.0,{Promo} Other,,0,0,NULL,Coopervision,30,,69,1,3
+206,1326,Renu MultiPlus Multi-Purpose Solution,1,Multi-purpose Solutions,,,RMPMPS,39:29.0,50:18.0,Solutions & Eye Care,,0,1,4.95,Bausch & Lomb,,,70,0,1
+207,1336,Gentle Mascara (Hypoallergenic),1,Hypoallegenic Makeup,,,GM6,39:29.0,24:36.0,Solutions & Eye Care,,0,1,6.42,Eye Care Cosmetics,,,70,0,1
+208,1339,Eye Cream (Hypoallergenic),2,Hypoallegenic Makeup,,,EC1,39:29.0,05:14.0,Solutions & Eye Care,,0,1,11.35,Eye Care Cosmetics,,,70,0,1
+209,1341,Eye Make Up Remover Lotion,1,Hypoallegenic Makeup,,,EMUL1,39:29.0,30:03.0,Solutions & Eye Care,,0,1,5.28,Eye Care Cosmetics,,,70,0,1
+210,1362,Opti-Free Puremoist (formerly Evermoist) Duo Pack,1,Multi-purpose Solutions,,,OFEMTP,39:29.0,14:01.0,Solutions & Eye Care,,0,1,8.55,Alcon,,,70,0,1
+211,1405,Biofinity Multifocal,1,Multifocals,Multifocal,Monthly,BIOM,39:29.0,08:40.0,Contact Lenses - Monthlies & Other,,0,0,4.75,Coopervision,30,,70,0,3
+212,1911,Proclear 1 Day Multifocal (Free),1,{Promo} Other,,,PC1DM_C,39:29.0,04:52.0,{Promo} Other,,0,0,NULL,Coopervision,1,,70,1,30
+213,2253,Ad-hoc Shipment J&J,1,Other,,,ADHOCJJ,39:29.0,03:50.0,Other,,1,0,NULL,Johnson & Johnson,,,70,0,1
+214,2255,Ad-hoc Shipment Coopervision,1,Other,,,ADHOCCO,39:29.0,27:45.0,Other,,1,0,NULL,Coopervision,,,70,0,1
+215,2330,Eye Bar (Promotional),1,Other,,,ALEBAR_C,39:29.0,44:23.0,Other,,1,1,10,Altacor,,,70,0,1
+216,2404,Clinitas Soothe Sample pack,1,Other,,,CLSTHESMP,39:29.0,51:54.0,Other,NULL,0,1,0,Altacor,NULL,NULL,70,0,NULL
+217,2343,Biotrue ONEDay,1,Dailies,Spherical,Daily,BT1D30,39:29.0,31:09.0,Contact Lenses - Dailies,,0,0,0.21,Bausch & Lomb,1,,70,0,30
+218,2347,GetLenses Eye Drops,2,Other,,,GLEYDP,39:29.0,33:55.0,Other,,0,1,2.18,Stericon Pharma,,,70,0,1
+219,2354,Complete RevitaLens Multipurpose Solution,1,Multi-purpose Solutions,,,CPRVTT100,39:29.0,55:09.0,Solutions & Eye Care,NULL,0,1,NULL,AMO,NULL,NULL,70,0,NULL
+220,2360,Clinitas Soothe Multi,1,Eye Drops,,,CLMPS,39:29.0,03:13.0,Solutions & Eye Care,NULL,0,1,2.85,Altacor,NULL,NULL,70,0,NULL
+221,2361,Vision Direct Contact Lens Case,2,Hygiene & Lid Care,,,BLCASE,39:29.0,24:39.0,Solutions & Eye Care,NULL,0,1,NULL,Vision Direct,NULL,NULL,70,0,NULL
+222,2310,Biofinity XR,1,Monthlies,Spherical,Monthly,BFXR03,39:29.0,08:17.0,Contact Lenses - Monthlies & Other,,0,0,NULL,Coopervision,30,,70,0,3
+223,2317,Aura ADM 1 Day,1,Dailies,Spherical,Daily,AUADM1,39:29.0,31:04.0,Contact Lenses - Dailies,,0,0,0.1317,R&L Vision,1,,70,0,30
+224,2319,Extreme H2O S-xtra,1,Monthlies,Spherical,Monthly,EXTH2O,39:29.0,43:03.0,Contact Lenses - Monthlies & Other,,0,0,1.8,Hydrogel Vision Corporation,30,,70,0,6
+225,2328,Everclear Eye Drops,1,Eye Drops,,,VDCED1,39:29.0,56:18.0,Solutions & Eye Care,NULL,0,1,3.06,Vision Direct,,,70,0,1
+226,2339,Dailies AquaComfort Plus Multifocal,1,Dailies,Multifocal,Daily,FACM30,39:29.0,16:31.0,Contact Lenses - Dailies,,0,0,0.2752,Ciba Vision,1,,70,0,30
+227,2358,1 Day Acuvue Define Shimmer,1,Dailies,Spherical,Daily,1DADSH,39:29.0,02:35.0,Contact Lenses - Dailies,NULL,0,0,0.3681,Johnson & Johnson,1,NULL,70,0,30
+228,2312,SofLens Natural Colors,1,Colours,Spherical,Monthly,SFNC02,39:29.0,24:04.0,Contact Lenses - Monthlies & Other,,0,0,NULL,Bausch & Lomb,30,,70,0,2
+229,2314,Solo Sept 360ml,1,Hydrogen Peroxide,,,SOSE36,39:29.0,34:01.0,Solutions & Eye Care,discontinued,0,1,NULL,R&L Vision,,,70,0,1
+230,2316,Aura 1 Day (90 Pack),1,Dailies,Spherical,Daily,AU1D90,39:29.0,09:46.0,Contact Lenses - Dailies,discontinued,0,0,0.1317,R&L Vision,1,,70,0,90
+231,2332,Easyvision Monthly Irisian Multifocal (Air Optix Aqua Multifocal),2,Other,,,AOMF_SPC,39:29.0,32:00.0,Other,,0,0,4.42,Ciba Vision,30,,70,0,3
+232,2336,Coopervision Essilor Lunelle,1,Telesales Only,,,ESSLU03,39:29.0,00:37.0,Contact Lenses - Monthlies & Other,,1,NULL,18.49,Coopervision,,,70,0,1
+233,2363,Hydron Z6 RX,1,Telesales Only,,,HYZ601RX,39:29.0,18:08.0,Contact Lenses - Monthlies & Other,NULL,1,0,5.25,CLPL,NULL,NULL,70,0,NULL
+234,2403,Clariti 1 Day Multifocal,1,Dailies,Multifocal,Daily,CLAR1DY30MF,39:29.0,58:03.0,Contact Lenses - Dailies,NULL,0,0,NULL,Sauflon,1,NULL,70,0,30
+235,2331,Junior Swimming Goggles,1,Other,,,PRSWCO,39:29.0,53:00.0,Other,,1,0,1.8,Gator Caiman ,,,70,0,1
+236,2333,Can-C Eye Drops,2,Eye Drops,,,CANCED,39:29.0,57:27.0,Solutions & Eye Care,,0,1,2.18,Vision Direct,,,70,0,1
+237,2346,PureVision2 for Presbyopia,1,Multifocals,Multifocal,Monthly,PUREV2P,39:29.0,40:54.0,Contact Lenses - Monthlies & Other,,0,0,3.4533,Bausch & Lomb,30,,70,0,3
+238,2352,Everclear Flat Pack Multi-Purpose solution â€“ pack of 3,1,Multi-purpose Solutions,,,EVCMPS250K,39:29.0,58:48.0,Solutions & Eye Care,NULL,0,1,NULL,Melleson Pharma,NULL,NULL,70,0,NULL
+239,2353,Everclear Flat Pack Multi-Purpose solution,1,Multi-purpose Solutions,,,EVCMPS250,39:29.0,14:00.0,Solutions & Eye Care,NULL,0,1,NULL,Melleson Pharma,NULL,NULL,70,0,NULL
+240,2320,INNOVA ColorMaker,2,Colours,Spherical,Monthly,INCOMA,39:29.0,02:04.0,Contact Lenses - Monthlies & Other,discontinued,0,0,4.29,Innova Vision,30,,70,0,2
+241,2359,1 Day Acuvue Define Sparkle,1,Dailies,Spherical,Daily,1DADSP,39:29.0,01:58.0,Contact Lenses - Dailies,NULL,0,0,0.3681,Johnson & Johnson,1,NULL,70,0,30
+242,2365,1 Day Acuvue Moist Multifocals,1,Dailies,Multifocal,Daily,1DAMM30,39:29.0,40:10.0,Contact Lenses - Dailies,NULL,0,0,0.62,Johnson & Johnson,1,NULL,70,0,30
