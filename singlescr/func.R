@@ -65,6 +65,7 @@ getItemBasedSimMatrix <- function(data) {
 
 readjustColUserProdTable <- function(dummyData , purchaseData){
   # A function to retrieve back keys variable (column_id, order_no)
+  dummyData <- head(tmp.data)
   data <- merge(dummyData, purchaseData[,c('customer_id',"order_no","key")], by=c("key"))
   data$key <- NULL
   
@@ -77,20 +78,19 @@ readjustColUserProdTable <- function(dummyData , purchaseData){
 ## A function to produce user - based similarity matrix
 ## data -> row : users , colmn : variables - dummy (0,1)
 ## matrix similarity : matrix produced by getItemBasedSimMatrix
-getUserItemBasedScore <- function (data, matrix_similarity)
+getItemCFPred <- function (data, matrix_similarity)
 {
   # get unique customer id
   uniqueCust <- unique(data$customer_id)
-  registerDoParallel(cores = 4)
   ## Parellization of Loops 
-  strt<-Sys.time() # start time
-  results <- foreach(i=1:length(uniqueCust), .combine='rbind') %dopar% {
+  results <- foreach(i=1:length(uniqueCust), .combine='rbind', .packages='foreach' ) %dopar% {
     # The value of the inner foreach loop is returned as
     # the value of the body of the outer foreach loop
     foreach(j=3:ncol(data), .combine='c') %do% {
       user <- uniqueCust[i]
       product <- colnames(data)[j]
-
+      
+      # select top-N = 5 items( + 1 which is the item itself)
       topN<-((head(n=6,(matrix_similarity[order(matrix_similarity[,product],decreasing=TRUE),][product]))))
       topN.names <- as.character(rownames(topN))
       topN.similarities <- as.numeric(topN[,1])
@@ -102,12 +102,11 @@ getUserItemBasedScore <- function (data, matrix_similarity)
       sum(topN.userPurchases %*% topN.similarities)/ (nrow(topN.userPurchases) * sum(topN.similarities))
     }     
   }
-  print(Sys.time()-strt) # end time
-  
   # naming product id as matrix's column
   colnames(results) <- colnames(data)[3:ncol(data)]
   # naming costumner_id as matrix's row
   rownames(results) <- uniqueCust
+  return(results)
 }
 
 # checker vector is empty or not

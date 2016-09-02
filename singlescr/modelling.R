@@ -94,6 +94,8 @@ purchaseData <- merge(tmpUnData,tmpUnTrain, by=c("key"))
 # purchaseData <- merge(data,tmp.train[,-4], by=c("key"))
 save(purchaseData, file = paste('features/features.cust.item.random/purchaseData',nsample,'.seed',123,'.rda',sep=''))
 
+# nsample <- 9000; load(paste('features/features.cust.item.random/purchaseData',nsample,'.seed',123,'.rda',sep=''))
+
 # release some memory
 rm(tmpUnData, tmpUnTrain)
 #####################################################################################
@@ -107,6 +109,135 @@ purchaseData <- data.frame(purchaseData)
 targetData <- join(purchaseData[,c("order_date","order_no","target","customer_id","product_id")], feat.item.global[,item.features], by=c('product_id'))
 # get unique customer_id
 id <- unique(targetData$customer_id)
+
+
+#####################################################################################
+##### Load relevant data (purchase dummy data - matrix similarity) generated from similariy.R
+temp = list.files(path = "features/features.itembasedCF/purchase.session", pattern="*.Rdata")
+for (i in 1:length(temp)) {load(paste("features/features.itembasedCF/purchase.session/",temp[i],sep=""))}
+
+temp = list.files(path = "features/features.matrix.cust.vars/purchase.session", pattern="*.Rdata")
+for (i in 1:length(temp)) {load(paste("features/features.matrix.cust.vars/purchase.session/",temp[i],sep=""))}
+
+#####################################################################################
+### Constructing features from three sources : Item profiles, Customer, and ItembasedCF
+# go parallel
+nbCores <- detectCores()
+cl <- makeCluster(nbCores)
+registerDoParallel(cl)
+
+# Get relevant itembasedCF per customer basis
+strt<-Sys.time() # start time
+# 1 Product ID (p1,p2,p3)
+tmp.data <- useritemList[[14]]
+tmp.matrix <- CFlist[[14]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreProd <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","product_id")])
+
+# 2 Sub Category (dailies, two-weeklies, etc)
+tmp.data <- useritemList[[16]]
+tmp.matrix <- CFlist[[16]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreSubcategory <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcategory")])
+
+# 3 Category (dailies, non-dailies, other)
+tmp.data <- useritemList[[3]]
+tmp.matrix <- CFlist[[3]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreCategory <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category")])
+
+# 4 Lens type (spherical, toric,)
+tmp.data <- useritemList[[12]]
+tmp.matrix <- CFlist[[12]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreLens<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lenstype")])
+
+# 5 Brand (acuvue,etc)
+tmp.data <- useritemList[[1]]
+tmp.matrix <- CFlist[[1]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreBrand<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","brand")])
+
+# 6 Manufacturer (jnj, etc)
+tmp.data <- useritemList[[13]]
+tmp.matrix <- CFlist[[13]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","manufacturer")])
+
+# 7 Category Lens (dailies.toric)
+tmp.data <- useritemList[[5]]
+tmp.matrix <- CFlist[[5]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreCatLens<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.lens")])
+
+# 8 Category Brand (dailies.acuvue)
+tmp.data <- useritemList[[4]]
+tmp.matrix <- CFlist[[4]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreCatBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.brand")])
+
+# 9 Category Manufacturer (dailies_jnj)
+tmp.data <- useritemList[[6]]
+tmp.matrix <- CFlist[[6]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreCatManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.manu")])
+
+# 10 Lenstype Brand (toric_acuvue)
+tmp.data <- useritemList[[8]]
+tmp.matrix <- CFlist[[8]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreLensBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.brand")])
+
+# 11 Lenstype Manufacturer (toric_jnj)
+tmp.data <- useritemList[[10]]
+tmp.matrix <- CFlist[[10]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.manu")])
+
+# 12 Lenstype Sub category (toric_dailies)
+tmp.data <- useritemList[[11]]
+tmp.matrix <- CFlist[[11]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreLensSubcat <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.subcat")])
+
+# 13 Subcategory Brand (dailies_acuvue)
+tmp.data <- useritemList[[15]]
+tmp.matrix <- CFlist[[15]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreSubcatBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.brand")])
+
+# 14 Subcategory Manufacturer (dailies_jnj)
+tmp.data <- useritemList[[18]]
+tmp.matrix <- CFlist[[18]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreSubcatManu<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.manu")])
+
+# 15 Category Lenstype Manufacturer (nondailies_toric_jnj)
+tmp.data <- useritemList[[7]]
+tmp.matrix <- CFlist[[7]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreCatLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","cat.lens.manu")])
+
+# 16 Subcategory Lenstype Manufacturer (two_weeklies_toric_jnj)
+tmp.data <- useritemList[[17]]
+tmp.matrix <- CFlist[[17]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreSubcatLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.lens.manu")])
+
+# 17 Lenstype Brand Manufacturer (toric_acuvue_jnj)
+tmp.data <- useritemList[[9]]
+tmp.matrix <- CFlist[[9]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreLensBrandManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.brand.manu")])
+
+# 18 Brand Manufacturer (toric_acuvue_jnj)
+tmp.data <- useritemList[[2]]
+tmp.matrix <- CFlist[[2]]
+tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
+targetData$scoreBrandManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","brand.manu")])
+
+print(Sys.time()-strt) # end time
+stopCluster(cl)
 
 #####################################################################################
 ##### Get user-dependent features for each customer id
@@ -171,128 +302,7 @@ targetData$pastLensBrandUniqueOrder <- getAffinityScore(holder= featLensBrandUni
 # rm(list = ls(pattern = 'feat'))
 
 #####################################################################################
-##### Load relevant data (purchase dummy data - matrix similarity) generated from similariy.R
-temp = list.files(path = "features/features.itembasedCF/purchase.session", pattern="*.Rdata")
-for (i in 1:length(temp)) {load(paste("features/features.itembasedCF/purchase.session/",temp[i],sep=""))}
-
-temp = list.files(path = "features/features.matrix.cust.vars/purchase.session", pattern="*.Rdata")
-for (i in 1:length(temp)) {load(paste("features/features.matrix.cust.vars/purchase.session/",temp[i],sep=""))}
-
-#####################################################################################
-### Constructing features from three sources : Item profiles, Customer, and ItembasedCF
-
-# Get relevant itembasedCF per customer basis
-strt<-Sys.time() # start time
-# 1 Product ID (p1,p2,p3)
-tmp.data <- useritemList[[14]]
-tmp.matrix <- CFlist[[14]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreProd <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","product_id")])
-
-# 2 Sub Category (dailies, two-weeklies, etc)
-tmp.data <- useritemList[[16]]
-tmp.matrix <- CFlist[[16]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreSubcategory <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcategory")])
-
-# 3 Category (dailies, non-dailies, other)
-tmp.data <- useritemList[[3]]
-tmp.matrix <- CFlist[[3]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreCategory <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category")])
-
-# 4 Lens type (spherical, toric,)
-tmp.data <- useritemList[[12]]
-tmp.matrix <- CFlist[[12]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreLens<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lenstype")])
-
-# 5 Brand (acuvue,etc)
-tmp.data <- useritemList[[1]]
-tmp.matrix <- CFlist[[1]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreBrand<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","brand")])
-
-# 6 Manufacturer (jnj, etc)
-tmp.data <- useritemList[[13]]
-tmp.matrix <- CFlist[[13]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","manufacturer")])
-
-# 7 Category Lens (dailies.toric)
-tmp.data <- useritemList[[5]]
-tmp.matrix <- CFlist[[5]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreCatLens<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.lens")])
-
-# 8 Category Brand (dailies.acuvue)
-tmp.data <- useritemList[[4]]
-tmp.matrix <- CFlist[[4]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreCatBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.brand")])
-
-# 9 Category Manufacturer (dailies_jnj)
-tmp.data <- useritemList[[6]]
-tmp.matrix <- CFlist[[6]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreCatManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.manu")])
-
-# 10 Lenstype Brand (toric_acuvue)
-tmp.data <- useritemList[[8]]
-tmp.matrix <- CFlist[[8]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreLensBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.brand")])
-
-# 11 Lenstype Manufacturer (toric_jnj)
-tmp.data <- useritemList[[10]]
-tmp.matrix <- CFlist[[10]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.manu")])
-
-# 12 Lenstype Sub category (toric_dailies)
-tmp.data <- useritemList[[11]]
-tmp.matrix <- CFlist[[11]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreLensSubcat <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.subcat")])
-
-# 13 Subcategory Brand (dailies_acuvue)
-tmp.data <- useritemList[[15]]
-tmp.matrix <- CFlist[[15]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreSubcatBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.brand")])
-
-# 14 Subcategory Manufacturer (dailies_jnj)
-tmp.data <- useritemList[[18]]
-tmp.matrix <- CFlist[[18]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreSubcatManu<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.manu")])
-
-# 15 Category Lenstype Manufacturer (nondailies_toric_jnj)
-tmp.data <- useritemList[[7]]
-tmp.matrix <- CFlist[[7]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreCatLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","cat.lens.manu")])
-
-# 16 Subcategory Lenstype Manufacturer (two_weeklies_toric_jnj)
-tmp.data <- useritemList[[17]]
-tmp.matrix <- CFlist[[17]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreSubcatLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.lens.manu")])
-
-# 17 Lenstype Brand Manufacturer (toric_acuvue_jnj)
-tmp.data <- useritemList[[9]]
-tmp.matrix <- CFlist[[9]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreLensBrandManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.brand.manu")])
-
-# 18 Brand Manufacturer (toric_acuvue_jnj)
-tmp.data <- useritemList[[2]]
-tmp.matrix <- CFlist[[2]]
-tmp.holder <- getUserItemBasedScore(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreBrandManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","brand.manu")])
-
-print(Sys.time()-strt) # end time
-
+### Get the key joint variables (e.g cat, subcat, bran) off from the table and store it
 tmp <- names(targetData)[6:24]
 targetFinalData <- targetData[, !(colnames(targetData) %in% tmp)]
 
@@ -331,9 +341,10 @@ testing <- testing[, names(training)]
 
 # save original files before data splitting
 save(training, pre2015, testing, file = paste('features/features.cust.item.random/preModelData',nsample,'.seed',123,'.rda',sep=''))
+# nsample<- 9000; load(paste('features/features.cust.item.random/preModelData',nsample,'.seed',123,'.rda',sep=''))
 
 # preprocessing before feeding the data into machine learning algorithms
-fullSet <- names(training)[!(names(training) %in% c("target","order_no","customer_id","product_id"))]
+fullSet <- names(training)[!(names(training) %in% c("target","order_date, order_no","customer_id","product_id","is201504","is201500"))]
 
 training[,2]= factor(training[,2], labels = c('N','Y'))
 testing[,2]= factor(testing[,2], labels = c('N','Y'))
@@ -696,3 +707,4 @@ validation$pred.svmRFitFull <- predict(svmRFitFull, testing[,fullSet])
 # Model : Support Vector Machine - Polynomial Kernel Basis
 validation$prob.svmPFitFull <- predict(svmPFitFull, testing[,fullSet],type='prob')[,'Y']
 validation$pred.svmPFitFull <- predict(svmPFitFull, testing[,fullSet])
+S
