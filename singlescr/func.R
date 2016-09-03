@@ -109,6 +109,20 @@ getItemCFPred <- function (data, matrix_similarity)
   return(results)
 }
 
+getPredScore <- function(holder, feature )
+{
+  # melting data tables from wide to long
+  tempHolder <- melt(holder, measure.vars =colnames(holder), variable.name = feature, value.name = 'score')
+  # rename column variables
+  colnames(tempHolder)[1] <- 'customer_id'
+  colnames(tempHolder)[2] <- feature
+  # merge between target data and holder
+  tmp <- merge(targetTemp, subset(tempHolder, score>0), by =c('customer_id', feature), all.x=T)
+  tmp$score[is.na(tmp$score)] <- 0
+  colnames(tmp)[ncol(tmp)] <- paste('score.',feature,sep='')
+  return(tmp)
+}
+
 # checker vector is empty or not
 vector.is.empty <- function(x) return(length(x) ==0 )
 

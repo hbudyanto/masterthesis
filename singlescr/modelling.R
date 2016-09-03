@@ -8,6 +8,7 @@ require(plyr)
 library(lubridate)
 require(doParallel)
 require(caret)
+library (corrplot) # correlation matrix
 
 # set working path in desktop & load pre-defined functions
 if (Sys.info()[1] == 'Darwin') {
@@ -15,6 +16,11 @@ if (Sys.info()[1] == 'Darwin') {
 } else {
   setwd("~/Dropbox/dissertation/raw_data"); source('~/Dropbox/dissertation/newscr/func.R')
 }
+
+# create new folders to store resutls and model
+dir.create('results')
+dir.create('images')
+dir.create('models')
 
 # load selected customers 2014 (who recorded transactions both in 2014 and 2015)
 load('data/keys/cust14Filter.Rda')
@@ -26,8 +32,8 @@ load('data/trans.Rda')
 #########################################################################################
 #### Random select smaller set of 2014 customers for faster simulation (temp)
 set.seed(123)
-nsample <- 150; tmp.cust14 <- sample(cust14Filter,nsample)
-nsample1 <- 50; tmp.cust14.new15 <- sample(cust14BoughtnewProd,nsample1)
+nsample <- 25; tmp.cust14 <- sample(cust14Filter,nsample)
+nsample1 <- 25; tmp.cust14.new15 <- sample(cust14BoughtnewProd,nsample1)
 # random select and update the number of samples choosen
 tmp.cust14 <- union(tmp.cust14,tmp.cust14.new15); nsample <- nsample+nsample1
 
@@ -107,9 +113,10 @@ item.features = colnames(feat.item.global)[c(1:7,143:ncol(feat.item.global))]
 
 purchaseData <- data.frame(purchaseData)
 targetData <- join(purchaseData[,c("order_date","order_no","target","customer_id","product_id")], feat.item.global[,item.features], by=c('product_id'))
+# purchaseTemp <- targetData
+targetTemp <- targetData
 # get unique customer_id
 id <- unique(targetData$customer_id)
-
 
 #####################################################################################
 ##### Load relevant data (purchase dummy data - matrix similarity) generated from similariy.R
@@ -132,112 +139,138 @@ strt<-Sys.time() # start time
 tmp.data <- useritemList[[14]]
 tmp.matrix <- CFlist[[14]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreProd <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","product_id")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'product_id') 
+# purchaseTemp$scoreProd <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","product_id")])
 
 # 2 Sub Category (dailies, two-weeklies, etc)
 tmp.data <- useritemList[[16]]
 tmp.matrix <- CFlist[[16]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreSubcategory <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcategory")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'subcategory') 
+# purchaseTemp$scoreSubcategory <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcategory")])
 
 # 3 Category (dailies, non-dailies, other)
 tmp.data <- useritemList[[3]]
 tmp.matrix <- CFlist[[3]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreCategory <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'category') 
+# purchaseTemp$scoreCategory <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category")])
 
 # 4 Lens type (spherical, toric,)
 tmp.data <- useritemList[[12]]
 tmp.matrix <- CFlist[[12]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreLens<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lenstype")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'lenstype') 
+# purchaseTemp$scoreLens<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lenstype")])
 
 # 5 Brand (acuvue,etc)
 tmp.data <- useritemList[[1]]
 tmp.matrix <- CFlist[[1]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreBrand<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","brand")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'brand') 
+# purchaseTemp$scoreBrand<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","brand")])
 
 # 6 Manufacturer (jnj, etc)
 tmp.data <- useritemList[[13]]
 tmp.matrix <- CFlist[[13]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","manufacturer")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'manufacturer') 
+# purchaseTemp$scoreManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","manufacturer")])
 
 # 7 Category Lens (dailies.toric)
 tmp.data <- useritemList[[5]]
 tmp.matrix <- CFlist[[5]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreCatLens<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.lens")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'category.lens') 
+# purchaseTemp$scoreCatLens<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.lens")])
 
 # 8 Category Brand (dailies.acuvue)
 tmp.data <- useritemList[[4]]
 tmp.matrix <- CFlist[[4]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreCatBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.brand")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'category.brand') 
+# purchaseTemp$scoreCatBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.brand")])
 
 # 9 Category Manufacturer (dailies_jnj)
 tmp.data <- useritemList[[6]]
 tmp.matrix <- CFlist[[6]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreCatManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.manu")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'category.manu') 
+# purchaseTemp$scoreCatManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","category.manu")])
 
 # 10 Lenstype Brand (toric_acuvue)
 tmp.data <- useritemList[[8]]
 tmp.matrix <- CFlist[[8]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreLensBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.brand")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'lens.brand') 
+# purchaseTemp$scoreLensBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.brand")])
 
 # 11 Lenstype Manufacturer (toric_jnj)
 tmp.data <- useritemList[[10]]
 tmp.matrix <- CFlist[[10]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.manu")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'lens.manu') 
+# purchaseTemp$scoreLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.manu")])
 
 # 12 Lenstype Sub category (toric_dailies)
 tmp.data <- useritemList[[11]]
 tmp.matrix <- CFlist[[11]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreLensSubcat <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.subcat")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'lens.subcat') 
+# purchaseTemp$scoreLensSubcat <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.subcat")])
 
 # 13 Subcategory Brand (dailies_acuvue)
 tmp.data <- useritemList[[15]]
 tmp.matrix <- CFlist[[15]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreSubcatBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.brand")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'subcat.brand') 
+# purchaseTemp$scoreSubcatBrand <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.brand")])
 
 # 14 Subcategory Manufacturer (dailies_jnj)
 tmp.data <- useritemList[[18]]
 tmp.matrix <- CFlist[[18]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreSubcatManu<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.manu")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'subcat.manu') 
+# purchaseTemp$scoreSubcatManu<- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.manu")])
 
 # 15 Category Lenstype Manufacturer (nondailies_toric_jnj)
 tmp.data <- useritemList[[7]]
 tmp.matrix <- CFlist[[7]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreCatLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","cat.lens.manu")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'cat.lens.manu') 
+# purchaseTemp$scoreCatLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","cat.lens.manu")])
 
 # 16 Subcategory Lenstype Manufacturer (two_weeklies_toric_jnj)
 tmp.data <- useritemList[[17]]
 tmp.matrix <- CFlist[[17]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreSubcatLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.lens.manu")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'subcat.lens.manu') 
+# purchaseTemp$scoreSubcatLensManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","subcat.lens.manu")])
 
 # 17 Lenstype Brand Manufacturer (toric_acuvue_jnj)
 tmp.data <- useritemList[[9]]
 tmp.matrix <- CFlist[[9]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreLensBrandManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.brand.manu")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'lens.brand.manu') 
+# purchaseTemp$scoreLensBrandManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","lens.brand.manu")])
 
 # 18 Brand Manufacturer (toric_acuvue_jnj)
 tmp.data <- useritemList[[2]]
 tmp.matrix <- CFlist[[2]]
 tmp.holder <- getItemCFPred(data = tmp.data[tmp.data$customer_id %in% id,], matrix_similarity =tmp.matrix)
-targetData$scoreBrandManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","brand.manu")])
+targetTemp <- getPredScore(holder= tmp.holder, feature  = 'brand.manu') 
+# purchaseTemp$scoreBrandManu <- getAffinityScore(holder= tmp.holder, test = targetData[,c("customer_id","brand.manu")])
 
 print(Sys.time()-strt) # end time
 stopCluster(cl)
+
+######## Checker whether those approach get the same results
+targetTemp <- targetTemp[with(targetTemp, order(order_no, customer_id, product_id)), ]
+# purchaseTemp <- purchaseTemp[with(purchaseTemp, order(order_no, customer_id, product_id)), ]
+# stop if we found the difference is significant
+stopifnot(max(abs(purchaseTemp$scoreProd - targetTemp$score.product_id)) == 0)
+stopifnot(max(abs(purchaseTemp$scoreSubcategory - targetTemp$score.subcategory)) == 0)
+stopifnot(max(abs(purchaseTemp$scoreBrandManu - targetTemp$score.brand.manu)) == 0)
 
 #####################################################################################
 ##### Get user-dependent features for each customer id
@@ -255,85 +288,81 @@ temp = list.files(path = "features/features.cust.dependent/", pattern="*.Rda")
 for (i in 1:length(temp)) {load(paste("features/features.cust.dependent/",temp[i],sep=""))}
 
 # 1 Tot number of past purchased products per selected features (categoy, subcat, brand, manu)
-targetData$pastCatNbProd <- getAffinityScore(holder= featCatNbProd[which(rownames(featCatNbProd) %in% id),], test = targetData[,c("customer_id","category")])
-targetData$pastSubNbProd <- getAffinityScore(holder= featSubNbProd[which(rownames(featSubNbProd) %in% id),], test = targetData[,c("customer_id","subcategory")])
-targetData$pastManNbProd <- getAffinityScore(holder= featManNbProd[which(rownames(featManNbProd) %in% id),], test = targetData[,c("customer_id","manufacturer")])
-targetData$pastBrandNbProd <- getAffinityScore(holder= featBrandNbProd[which(rownames(featBrandNbProd) %in% id),], test = targetData[,c("customer_id","brand")])
+targetTemp$pastCatNbProd <- getAffinityScore(holder= featCatNbProd[which(rownames(featCatNbProd) %in% id),], test = targetData[,c("customer_id","category")])
+targetTemp$pastSubNbProd <- getAffinityScore(holder= featSubNbProd[which(rownames(featSubNbProd) %in% id),], test = targetData[,c("customer_id","subcategory")])
+targetTemp$pastManNbProd <- getAffinityScore(holder= featManNbProd[which(rownames(featManNbProd) %in% id),], test = targetData[,c("customer_id","manufacturer")])
+targetTemp$pastBrandNbProd <- getAffinityScore(holder= featBrandNbProd[which(rownames(featBrandNbProd) %in% id),], test = targetData[,c("customer_id","brand")])
 
-targetData$pastSubLensmanuNbProd <- getAffinityScore(holder= featSubLensmanuNbProd[which(rownames(featSubLensmanuNbProd) %in% id),], test = targetData[,c("customer_id","subcat.lens.manu")])
-targetData$pastLensBrandManuNbProd <- getAffinityScore(holder= featLensBrandManuNbProd[which(rownames(featLensBrandManuNbProd) %in% id),], test = targetData[,c("customer_id","lens.brand.manu")])
-targetData$pastSubBrandNbProd <- getAffinityScore(holder= featSubBrandNbProd[which(rownames(featSubBrandNbProd) %in% id),], test = targetData[,c("customer_id","subcat.brand")])
-targetData$pastLensBrandNbProd <- getAffinityScore(holder= featLensBrandNbProd[which(rownames(featLensBrandNbProd) %in% id),], test = targetData[,c("customer_id","lens.brand")])
+targetTemp$pastSubLensmanuNbProd <- getAffinityScore(holder= featSubLensmanuNbProd[which(rownames(featSubLensmanuNbProd) %in% id),], test = targetData[,c("customer_id","subcat.lens.manu")])
+targetTemp$pastLensBrandManuNbProd <- getAffinityScore(holder= featLensBrandManuNbProd[which(rownames(featLensBrandManuNbProd) %in% id),], test = targetData[,c("customer_id","lens.brand.manu")])
+targetTemp$pastSubBrandNbProd <- getAffinityScore(holder= featSubBrandNbProd[which(rownames(featSubBrandNbProd) %in% id),], test = targetData[,c("customer_id","subcat.brand")])
+targetTemp$pastLensBrandNbProd <- getAffinityScore(holder= featLensBrandNbProd[which(rownames(featLensBrandNbProd) %in% id),], test = targetData[,c("customer_id","lens.brand")])
 
 # 2 Tot amounts of past purchased products per selected features (categoy, subcat, brand, manu)
-targetData$pastCatTransSpent <- getAffinityScore(holder= featCatTransSpent[which(rownames(featCatTransSpent) %in% id),], test = targetData[,c("customer_id","category")])
-targetData$pastSubTransSpent <- getAffinityScore(holder= featSubTransSpent[which(rownames(featSubTransSpent) %in% id),], test = targetData[,c("customer_id","subcategory")])
-targetData$pastManTransSpent <- getAffinityScore(holder= featManTransSpent[which(rownames(featManTransSpent) %in% id),], test = targetData[,c("customer_id","manufacturer")])
-targetData$pastBrandTransSpent <- getAffinityScore(holder= featBrandTransSpent[which(rownames(featBrandTransSpent) %in% id),], test = targetData[,c("customer_id","brand")])
+targetTemp$pastCatTransSpent <- getAffinityScore(holder= featCatTransSpent[which(rownames(featCatTransSpent) %in% id),], test = targetData[,c("customer_id","category")])
+targetTemp$pastSubTransSpent <- getAffinityScore(holder= featSubTransSpent[which(rownames(featSubTransSpent) %in% id),], test = targetData[,c("customer_id","subcategory")])
+targetTemp$pastManTransSpent <- getAffinityScore(holder= featManTransSpent[which(rownames(featManTransSpent) %in% id),], test = targetData[,c("customer_id","manufacturer")])
+targetTemp$pastBrandTransSpent <- getAffinityScore(holder= featBrandTransSpent[which(rownames(featBrandTransSpent) %in% id),], test = targetData[,c("customer_id","brand")])
 
-targetData$pastSubLensmanuTransSpent <- getAffinityScore(holder= featSubLensmanuTransSpent[which(rownames(featSubLensmanuTransSpent) %in% id),], test = targetData[,c("customer_id","subcat.lens.manu")])
-targetData$pastLensBrandManuTransSpent <- getAffinityScore(holder= featLensBrandManuTransSpent[which(rownames(featLensBrandManuTransSpent) %in% id),], test = targetData[,c("customer_id","lens.brand.manu")])
-targetData$pastSubBrandTransSpent <- getAffinityScore(holder= featSubBrandTransSpent[which(rownames(featSubBrandTransSpent) %in% id),], test = targetData[,c("customer_id","subcat.brand")])
-targetData$pastLensBrandTransSpent <- getAffinityScore(holder= featLensBrandTransSpent[which(rownames(featLensBrandTransSpent) %in% id),], test = targetData[,c("customer_id","lens.brand")])
+targetTemp$pastSubLensmanuTransSpent <- getAffinityScore(holder= featSubLensmanuTransSpent[which(rownames(featSubLensmanuTransSpent) %in% id),], test = targetData[,c("customer_id","subcat.lens.manu")])
+targetTemp$pastLensBrandManuTransSpent <- getAffinityScore(holder= featLensBrandManuTransSpent[which(rownames(featLensBrandManuTransSpent) %in% id),], test = targetData[,c("customer_id","lens.brand.manu")])
+targetTemp$pastSubBrandTransSpent <- getAffinityScore(holder= featSubBrandTransSpent[which(rownames(featSubBrandTransSpent) %in% id),], test = targetData[,c("customer_id","subcat.brand")])
+targetTemp$pastLensBrandTransSpent <- getAffinityScore(holder= featLensBrandTransSpent[which(rownames(featLensBrandTransSpent) %in% id),], test = targetData[,c("customer_id","lens.brand")])
 
 # 3 Tot amounts of discount received per selected features (categoy, subcat, brand, manu)
-targetData$pastCatDiscReceived <- getAffinityScore(holder= featCatDiscReceived[which(rownames(featCatDiscReceived) %in% id),], test = targetData[,c("customer_id","category")])
-targetData$pastSubDiscReceived <- getAffinityScore(holder= featSubDiscReceived[which(rownames(featSubDiscReceived) %in% id),], test = targetData[,c("customer_id","subcategory")])
-targetData$pastManDiscReceived <- getAffinityScore(holder= featManDiscReceived[which(rownames(featManDiscReceived) %in% id),], test = targetData[,c("customer_id","manufacturer")])
-targetData$pastBrandDiscReceived <- getAffinityScore(holder= featBrandDiscReceived[which(rownames(featBrandDiscReceived) %in% id),], test = targetData[,c("customer_id","brand")])
+targetTemp$pastCatDiscReceived <- getAffinityScore(holder= featCatDiscReceived[which(rownames(featCatDiscReceived) %in% id),], test = targetData[,c("customer_id","category")])
+targetTemp$pastSubDiscReceived <- getAffinityScore(holder= featSubDiscReceived[which(rownames(featSubDiscReceived) %in% id),], test = targetData[,c("customer_id","subcategory")])
+targetTemp$pastManDiscReceived <- getAffinityScore(holder= featManDiscReceived[which(rownames(featManDiscReceived) %in% id),], test = targetData[,c("customer_id","manufacturer")])
+targetTemp$pastBrandDiscReceived <- getAffinityScore(holder= featBrandDiscReceived[which(rownames(featBrandDiscReceived) %in% id),], test = targetData[,c("customer_id","brand")])
 
-targetData$pastSubLensmanuDiscReceived<- getAffinityScore(holder= featSubLensmanuDiscReceived[which(rownames(featSubLensmanuDiscReceived) %in% id),], test = targetData[,c("customer_id","subcat.lens.manu")])
-targetData$pastLensBrandManuDiscReceived <- getAffinityScore(holder= featLensBrandManuDiscReceived[which(rownames(featLensBrandManuDiscReceived) %in% id),], test = targetData[,c("customer_id","lens.brand.manu")])
-targetData$pastSubBrandDiscReceived <- getAffinityScore(holder= featSubBrandDiscReceived[which(rownames(featSubBrandDiscReceived) %in% id),], test = targetData[,c("customer_id","subcat.brand")])
-targetData$pastLensBrandDiscReceived<- getAffinityScore(holder= featLensBrandDiscReceived[which(rownames(featLensBrandDiscReceived) %in% id),], test = targetData[,c("customer_id","lens.brand")])
+targetTemp$pastSubLensmanuDiscReceived<- getAffinityScore(holder= featSubLensmanuDiscReceived[which(rownames(featSubLensmanuDiscReceived) %in% id),], test = targetData[,c("customer_id","subcat.lens.manu")])
+targetTemp$pastLensBrandManuDiscReceived <- getAffinityScore(holder= featLensBrandManuDiscReceived[which(rownames(featLensBrandManuDiscReceived) %in% id),], test = targetData[,c("customer_id","lens.brand.manu")])
+targetTemp$pastSubBrandDiscReceived <- getAffinityScore(holder= featSubBrandDiscReceived[which(rownames(featSubBrandDiscReceived) %in% id),], test = targetData[,c("customer_id","subcat.brand")])
+targetTemp$pastLensBrandDiscReceived<- getAffinityScore(holder= featLensBrandDiscReceived[which(rownames(featLensBrandDiscReceived) %in% id),], test = targetData[,c("customer_id","lens.brand")])
 
 # 4 Tot numberof unique transactions recorded per selected features (categoy, subcat, brand, manu)
-targetData$pastCatUniqueOrder <- getAffinityScore(holder= featCatUniqueOrder[which(rownames(featCatUniqueOrder) %in% id),], test = targetData[,c("customer_id","category")])
-targetData$pastSubUniqueOrder <- getAffinityScore(holder= featSubUniqueOrder[which(rownames(featSubUniqueOrder) %in% id),], test = targetData[,c("customer_id","subcategory")])
-targetData$pastManUniqueOrder <- getAffinityScore(holder= featManUniqueOrder[which(rownames(featManUniqueOrder) %in% id),], test = targetData[,c("customer_id","manufacturer")])
-targetData$pastBrandUniqueOrder <- getAffinityScore(holder= featBrandUniqueOrder[which(rownames(featBrandUniqueOrder) %in% id),], test = targetData[,c("customer_id","brand")])
+targetTemp$pastCatUniqueOrder <- getAffinityScore(holder= featCatUniqueOrder[which(rownames(featCatUniqueOrder) %in% id),], test = targetData[,c("customer_id","category")])
+targetTemp$pastSubUniqueOrder <- getAffinityScore(holder= featSubUniqueOrder[which(rownames(featSubUniqueOrder) %in% id),], test = targetData[,c("customer_id","subcategory")])
+targetTemp$pastManUniqueOrder <- getAffinityScore(holder= featManUniqueOrder[which(rownames(featManUniqueOrder) %in% id),], test = targetData[,c("customer_id","manufacturer")])
+targetTemp$pastBrandUniqueOrder <- getAffinityScore(holder= featBrandUniqueOrder[which(rownames(featBrandUniqueOrder) %in% id),], test = targetData[,c("customer_id","brand")])
 
-targetData$pastSubLensmanuUniqueOrder<- getAffinityScore(holder= featSubLensmanuUniqueOrder[which(rownames(featSubLensmanuUniqueOrder) %in% id),], test = targetData[,c("customer_id","subcat.lens.manu")])
-targetData$pastLensBrandManuUniqueOrder <- getAffinityScore(holder= featLensBrandManuUniqueOrder[which(rownames(featLensBrandManuUniqueOrder) %in% id),], test = targetData[,c("customer_id","lens.brand.manu")])
-targetData$pastSubBrandUniqueOrder <- getAffinityScore(holder= featSubBrandUniqueOrder[which(rownames(featSubBrandUniqueOrder) %in% id),], test = targetData[,c("customer_id","subcat.brand")])
-targetData$pastLensBrandUniqueOrder <- getAffinityScore(holder= featLensBrandUniqueOrder[which(rownames(featLensBrandUniqueOrder) %in% id),], test = targetData[,c("customer_id","lens.brand")])
+targetTemp$pastSubLensmanuUniqueOrder<- getAffinityScore(holder= featSubLensmanuUniqueOrder[which(rownames(featSubLensmanuUniqueOrder) %in% id),], test = targetData[,c("customer_id","subcat.lens.manu")])
+targetTemp$pastLensBrandManuUniqueOrder <- getAffinityScore(holder= featLensBrandManuUniqueOrder[which(rownames(featLensBrandManuUniqueOrder) %in% id),], test = targetData[,c("customer_id","lens.brand.manu")])
+targetTemp$pastSubBrandUniqueOrder <- getAffinityScore(holder= featSubBrandUniqueOrder[which(rownames(featSubBrandUniqueOrder) %in% id),], test = targetData[,c("customer_id","subcat.brand")])
+targetTemp$pastLensBrandUniqueOrder <- getAffinityScore(holder= featLensBrandUniqueOrder[which(rownames(featLensBrandUniqueOrder) %in% id),], test = targetData[,c("customer_id","lens.brand")])
 
 # release some memory
-# rm(list = ls(pattern = 'feat'))
+rm(list = ls(pattern = 'feat'))
 
 #####################################################################################
 ### Get the key joint variables (e.g cat, subcat, bran) off from the table and store it
-tmp <- names(targetData)[6:24]
-targetFinalData <- targetData[, !(colnames(targetData) %in% tmp)]
+tmp <- names(targetData)[6:23]
+targetFinalData <- targetTemp[, !(colnames(targetTemp) %in% tmp)]
 
 # save original files before data splitting
 save(purchaseData, targetFinalData, targetData, file = paste('features/features.cust.item.random/purchaseData',nsample,'.seed',123,'.rda',sep=''))
-# nsample = 5000;
-# load(paste('features/features.cust.item.random/purchaseData',nsample,'.seed',123,'.rda',sep=''))
+# nsample = 5000; load(paste('features/features.cust.item.random/purchaseData',nsample,'.seed',123,'.rda',sep=''))
 
 #####################################################################################
 ## We'll split all of the 2014 data into the training set and a portion of the 2015 data too
-
-# tmp.train$is2015 <- year(tmp.train$order_date) == 2015
-# tmp <- targetData[which(targetData$customer_id %in% c('u100009','u100348')),c("order_date","order_no","target","customer_id","product_id")]
-
 `%between%`<-function(x,rng) x>rng[1] & x<rng[2]
 
 # new variable to determine the year of the transaction for the sake of constructing train & validation
 # we use the first 4 month data in 2015 for tuning the algorithm and the rest for validation
-tmp$is201504 <- (year(tmp$order_date)*100+month(tmp$order_date)) %between% c(201412,201504)
-tmp$is201500 <- (year(tmp$order_date)) == 2015
+targetFinalData$is201504 <- (year(targetFinalData$order_date)*100+month(targetFinalData$order_date)) %between% c(201412,201504)
+targetFinalData$is201500 <- (year(targetFinalData$order_date)) == 2015
 
 # create training data set
-training <- subset(tmp, !is201500)
+training <- subset(targetFinalData, !is201500)
 # keep the record for original 2014 training data (lated used in trctrl)
 pre2015 <- 1:nrow(training)
-year2015 <- subset(tmp, is201500)
+year2015 <- subset(targetFinalData, is201500)
 
 # append the first 4 months data to training dataset
-training2 <- subset(tmp, is201504)
-testing <- subset(tmp, !is201504 & is201500)
+training2 <- subset(targetFinalData, is201504)
+testing <- subset(targetFinalData, !is201504 & is201500)
 
+# binding rows amongst training & training2
 training <- rbind(training,training2)
 training <- noZV(training)
 
@@ -344,21 +373,53 @@ save(training, pre2015, testing, file = paste('features/features.cust.item.rando
 # nsample<- 9000; load(paste('features/features.cust.item.random/preModelData',nsample,'.seed',123,'.rda',sep=''))
 
 # preprocessing before feeding the data into machine learning algorithms
-fullSet <- names(training)[!(names(training) %in% c("target","order_date, order_no","customer_id","product_id","is201504","is201500"))]
+fullSet <- names(training)[!(names(training) %in% c("target","order_date", "order_no","customer_id","product_id","is201504","is201500"))]
 
-training[,2]= factor(training[,2], labels = c('N','Y'))
-testing[,2]= factor(testing[,2], labels = c('N','Y'))
+# reformat target as a factor
+obj <- which(colnames(training)== 'target')
+training[,obj]= factor(training[,obj], labels = c('N','Y'))
+testing[,obj]= factor(testing[,obj], labels = c('N','Y'))
 
-colnames(training)<- make.names(colnames(training))
-colnames(testing)<- make.names(colnames(testing))
+# rename the column names
+colnames(training) <- make.names(colnames(training))
+colnames(testing) <- make.names(colnames(testing))
+
+#####################################################################################
+#### Drop extreme correlated features
+
+predCorr <- cor(training[,fullSet])
+
+png(filename=paste('images/correlation.matrix.plot',nsample,'.seed',123,'.png',sep=''))
+corrplot(predCorr, order = "AOE", cl.ratio = 0.2, cl.align = "r")
+dev.off()
+  
+correlation_matrix <- as.data.frame(round(predCorr, 2))
+for (i in 1:ncol(correlation_matrix)){correlation_matrix[i,i] <- NA}
+write.csv(correlation_matrix,'results/correlation.csv')
+
+
+# automatic detection for highly correlated variables
+# highCorr <- findCorrelation(predCorr, .99)
+
+# manual selection 
+highCorr <- c("pastLensBrandUniqueOrder","pastLensBrandDiscReceived","pastBrandDiscReceived","pastSubBrandDiscReceived",
+              "pastLensBrandTransSpent","pastLensBrandNbProd","pastLensBrandNbProd","score.cat.lens.manu",
+              "score.lens.brand","score.brand","score.category.brand","score.cat.lens.manu","score.category.manu")
+fullSet <- fullSet[!(fullSet %in% highCorr)]
+# checker whether there is still correlated variables
+# predCorr <- cor(training[,reducedSet])
+# correlation_matrix <- as.data.frame(round(predCorr, 2))
+
+isNZV <- nearZeroVar(training[,fullSet], saveMetrics = TRUE, freqCut = floor(nrow(training)/5))
+fullSet <-  rownames(subset(isNZV, !nzv))
+
+reducedSet <- rownames(subset(isNZV, !nzv & freqRatio < floor(nrow(training)/50)))
 
 #####################################################################################
 #### Begin Machine Learning Algorithm
 
-# create new folders to store resutls and model
-dir.create('results')
-dir.create('images')
-dir.create('models')
+# "unregister" a foreach backend by registering the sequential backend, other can't run xgboost
+registerDoSEQ()
 
 # Pack the training control parameters
 xgb_trcontrol = trainControl(
@@ -395,7 +456,7 @@ xgbTree <- train(x = training[,fullSet],
                  nthread = 10
 )
 print(Sys.time()-strt) # end time
-print(xgbTree)
+# print(xgbTree)
 
 # save Model
 saveRDS(xgbTree, paste('models/xgbTree.rds',nsample,'.seed',123,'.rds',sep=''))
@@ -432,7 +493,7 @@ nnetFit <- train(x = training[,fullSet],
                  MaxNWts = 1*(maxSize * (length(fullSet) + 1) + maxSize + 1),
                  trControl = xgb_trcontrol)
 print(Sys.time()-strt) # end time
-print(nnetFit)
+# print(nnetFit)
 # Save Model
 saveRDS(nnetFit, paste('models/nnetFit.rds',nsample,'.seed',123,'.rds',sep=''))
 
@@ -450,7 +511,7 @@ nnetFit2 <- train(x =  training[,fullSet],
                   MaxNWts = 1*(maxSize * (length(fullSet) + 1) + maxSize + 1),
                   trControl = xgb_trcontrol)
 print(Sys.time()-strt) # end time
-print(nnetFit2)
+# print(nnetFit2)
 # Save Model
 saveRDS(nnetFit2, paste('models/nnetFit2.rds',nsample,'.seed',123,'.rds',sep=''))
 
@@ -472,7 +533,7 @@ nnetFit3 <- train(x = training[,fullSet],
                   #allowParallel = FALSE, ## this will cause to many workers to be launched.
                   trControl = xgb_trcontrol)
 print(Sys.time()-strt) # end time
-print(nnetFit3)
+# print(nnetFit3)
 # Save Models
 saveRDS(nnetFit3, paste('models/nnetFit3.rds',nsample,'.seed',123,'.rds',sep=''))
 
@@ -492,7 +553,7 @@ nnetFit4 <- train(x = training[,fullSet],
                   #allowParallel = FALSE, 
                   trControl = xgb_trcontrol)
 print(Sys.time()-strt) # end time
-print(nnetFit4)
+# print(nnetFit4)
 # Save Models
 saveRDS(nnetFit4, paste('models/nnetFit4.rds',nsample,'.seed',123,'.rds',sep=''))
 
@@ -562,7 +623,7 @@ glmnFit <- train(x = training[,fullSet],
 print(Sys.time()-strt) # end time
 
 # Get the result from glmnet
-print(glmnFit)
+# print(glmnFit)
 # Save Models
 saveRDS(glmnFit, paste('models/glmnFit.rds',nsample,'.seed',123,'.rds',sep=''))
 
@@ -615,7 +676,7 @@ svmRFitFull <- train(x = training[,fullSet],
                      trControl = xgb_trcontrol)
 
 print(Sys.time()-strt) # end time
-print(svmRFitFull)
+# print(svmRFitFull)
 
 # Save Models
 saveRDS(svmRFitFull, paste('models/svmRFitFull.rds',nsample,'.seed',123,'.rds',sep=''))
@@ -649,7 +710,7 @@ svmPFitFull <- train(x = training[,fullSet],
                      trControl = xgb_trcontrol)
 
 print(Sys.time()-strt) # end time
-print(svmPFitFull)
+# print(svmPFitFull)
 
 # Save Models
 saveRDS(svmPFitFull, paste('models/svmPFitFull.rds',nsample,'.seed',123,'.rds',sep=''))
@@ -707,4 +768,3 @@ validation$pred.svmRFitFull <- predict(svmRFitFull, testing[,fullSet])
 # Model : Support Vector Machine - Polynomial Kernel Basis
 validation$prob.svmPFitFull <- predict(svmPFitFull, testing[,fullSet],type='prob')[,'Y']
 validation$pred.svmPFitFull <- predict(svmPFitFull, testing[,fullSet])
-S
