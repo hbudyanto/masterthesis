@@ -10,11 +10,12 @@ if(cores > 1) {
   registerDoMC(cores)
 }
 
-# set working path in Desktop
+
+# set working path in desktop & load pre-defined functions
 if (Sys.info()[1] == 'Darwin') {
-  setwd("~/PycharmProjects/dissertation/raw_data");source('~/PycharmProjects/dissertation/newscr/func.R')
+  setwd("~/PycharmProjects/dissertation/raw_data");source('~/PycharmProjects/dissertation/scr/singlescr/func.R')
 } else {
-  setwd("~/Dropbox/dissertation/raw_data"); source('~/Dropbox/dissertation/src/newscr/func.R')
+  setwd("~/Dropbox/dissertation/raw_data"); source('~/Dropbox/dissertation/scr/singlescr/func.R')
 }
 
 #####################################################################################
@@ -94,47 +95,12 @@ featLensBrandUniqueOrder <- user_dependent_uniqueTrans(data = tmpTrans, feature 
 
 dir.create('features/features.cust.dependent')
 
-# storing files according to each figures (part 1)
-save(featCatNbProd,featSubNbProd,featManNbProd,featBrandNbProd,
+# storing files according to each figures 
+save(featCatNbProd,featSubNbProd,featManNbProd,featBrandNbProd,featSubLensmanuNbProd, featLensBrandManuNbProd, featSubBrandNbProd, featLensBrandNbProd,
      file = 'features/features.cust.dependent/feat.user.dependent.NbProd.Rda')
-save(featCatTransSpent,featSubTransSpent, featManTransSpent,featBrandTransSpent,
+save(featCatTransSpent,featSubTransSpent, featManTransSpent,featBrandTransSpent, featLensBrandManuTransSpent, featSubBrandTransSpent, featLensBrandTransSpent,
      file = 'features/features.cust.dependent/feat.user.dependent.TransSpent.Rda')
-save(featCatDiscReceived,featSubDiscReceived, featManDiscReceived,featBrandDiscReceived,
+save(featCatDiscReceived,featSubDiscReceived, featManDiscReceived,featBrandDiscReceived,featLensBrandManuDiscReceived, featSubBrandDiscReceived, featLensBrandDiscReceived,
      file = 'features/features.cust.dependent/feat.user.dependent.DiscReceived.Rda')
-save(featCatUniqueOrder,featSubUniqueOrder, featManUniqueOrder,featBrandUniqueOrder,
+save(featCatUniqueOrder,featSubUniqueOrder, featManUniqueOrder,featBrandUniqueOrder, featLensBrandManuUniqueOrder, featSubBrandUniqueOrder, featLensBrandUniqueOrder,
      file = 'features/features.cust.dependent/feat.user.dependent.UniqueOrder.Rda')
-
-# storing files according to each figures (part 2)
-save(featSubLensmanuNbProd,featLensBrandManuNbProd,featSubBrandNbProd,featLensBrandNbProd,
-     file = 'features/features.cust.dependent/feat.user.dependent.NbProd.part2.Rda')
-save(featSubLensmanuTransSpent,featLensBrandManuTransSpent,featSubBrandTransSpent,featLensBrandTransSpent,
-     file = 'features/features.cust.dependent/feat.user.dependent.TransSpent.part2.Rda')
-save(featSubLensmanuDiscReceived,featLensBrandManuDiscReceived,featSubBrandDiscReceived,featLensBrandDiscReceived,
-     file = 'features/features.cust.dependent/feat.user.dependent.DiscReceived.part2.Rda')
-save(featSubLensmanuUniqueOrder,featLensBrandManuUniqueOrder,featSubBrandUniqueOrder,featLensBrandUniqueOrder,
-     file = 'features/features.cust.dependent/feat.user.dependent.UniqueOrder.part2.Rda')
-
-# merging all tables
-# bug found in renaming same variables
-# list.temp_table = lapply(ls(pattern = "feat"), get)
-# feat.user.dependent = Reduce(function(...) merge(..., by=c("customer_id"), all=T), list.temp_table)
-
-# summarized <- merge(featCatNbProd, featCatTransSpent)
-# summarized <- merge(summarized,featCatDiscReceived)
-# summarized <- merge(summarized,featCatUniqueOrder)
-# summarized <- merge(summarized,featSubNbProd)
-# summarized <- merge(summarized,featSubTransSpent)
-# summarized <- merge(summarized,featSubDiscReceived)
-# summarized <- merge(summarized,featSubUniqueOrder)
-# summarized <- merge(summarized,featManNbProd)
-# summarized <- merge(summarized,featManTransSpent)
-# summarized <- merge(summarized,featManDiscReceived)
-# summarized <- merge(summarized,featManUniqueOrder)
-# summarized <- merge(summarized,featBrandNbProd)
-# summarized <- merge(summarized,featBrandTransSpent)
-# summarized <- merge(summarized,featBrandDiscReceived)
-# summarized <- merge(summarized,featBrandUniqueOrder)
-
-# store file in both format (rda and csv)
-# save(summarized, file = 'features/feat.user.dependent.Rda')
-# write.table(summarized, 'features/feat.user.dependent.csv', row.names = F, col.names = T, sep=',')

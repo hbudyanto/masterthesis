@@ -1,8 +1,3 @@
-
-substrLeft <- function(x, n){substr(x, 1, nchar(x)-n)}
-substrRight <- function(x, n){substr(x, nchar(x)-n+1, nchar(x))}
-`%between%`<-function(x,rng) x>rng[1] & x<rng[2]
-
 ## A function to find and remove zero-variance ("ZV") predictors
 noZV <- function(x) {
   keepers <- unlist(lapply(x, function(x) length(unique(x)) > 1))
@@ -128,30 +123,6 @@ getPredScore <- function(holder, feature )
   return(tmp)
 }
 
-getPurchaseData <- function(feature, numeric, holder, customer )
-{
-  tempHolder <- holder[which(holder$customer %in% customer),]
-  stopifnot(colnames(tempHolder)[2] == feature | colnames(tempHolder)[3] == numeric)
-
-  tmp <- merge(purchaseTemp, tempHolder, by =c('customer_id', feature), all.x=T)
-  colnames(tmp)[ncol(tmp)] <- 'score'
-  tmp$score[is.na(tmp$score)] <- 0
-  colnames(tmp)[ncol(tmp)] <- paste('pastRec.',feature,'.',numeric,sep='')
-  return(tmp)
-}
-
-getPurchaseData90 <- function(feature, numeric, holder, customer )
-{
-  tempHolder <- holder[which(holder$customer %in% customer),]
-  stopifnot(colnames(tempHolder)[2] == feature | colnames(tempHolder)[3] == numeric)
-  
-  tmp <- merge(purchaseTemp, tempHolder, by =c('customer_id', feature), all.x=T)
-  colnames(tmp)[ncol(tmp)] <- 'score'
-  tmp$score[is.na(tmp$score)] <- 0
-  colnames(tmp)[ncol(tmp)] <- paste('pastRec90.',feature,'.',numeric,sep='')
-  return(tmp)
-}
-
 # checker vector is empty or not
 vector.is.empty <- function(x) return(length(x) ==0 )
 
@@ -183,21 +154,59 @@ user_dependent <- function(data, feature, numeric){
   # summing over multiple chosen columns for one input numeric variable
   groupingClm <- c('customer_id',feature)
   tmpGrouping <- ddply(tmpData, groupingClm, function(x) {colSums(x[numeric])} ,.parallel = cores > 1 )
-  colnames(tmpGrouping)[2] <- feature
-  return(tmpGrouping)
+  colnames(tmpGrouping)[2] <- "temp"
+  # multiply the origin binary values with "numeric" to get actual corresponding numeric values 
+  tmp = data.frame(cbind(tmpGrouping, data.frame(model.matrix(~temp-1, tmpGrouping))))
+  for (i in 4:ncol(tmp)){
+    tmp[,i] <- tmp[,i] * tmp[,numeric]
+  }
+  # set column's names according to "numeric " chosen
+  # colVar <- ifelse(numeric == "global_line_total_exc_vat", "totTransSpent.",
+  #                  ifelse(numeric == "apprx_discount" ,"discReceived.","nbProdPurchased."))
+  # colnames(tmp)[4:ncol(tmp)] <- paste(colVar,sub("^....", "", colnames(tmp)[4:ncol(tmp)]),sep="")
+  colnames(tmp)[4:ncol(tmp)] <- sub("^....", "", colnames(tmp)[4:ncol(tmp)])
+  # summing multiple columns over unique customer id
+  groupingClm <- colnames(tmp)[4:ncol(tmp)] 
+  tmp <- setDT(tmp)[, lapply(.SD, sum), by=.(customer_id), .SDcols=c(groupingClm)]
+  # format back to frame
+  setDF(tmp)
+  # drop non-zero variance
+  tmp <- noZV(tmp)
+  # format dataframe
+  rownames(tmp) <- tmp$customer_id
+  tmp$customer_id <- NULL
+  return(tmp)
 }
 
 user_dependent_uniqueTrans <- function(data,feature)
 {
   # input data frame consisisting of product_id, actual_qty , global_line_total_exc_vat , apprx_discount
   # allocate temporary variables
-  tmpData <- data[,c("customer_id","order_date","order_no",feature)]
+  tmpData <- data[,c("customer_id","product_id","order_date","order_no",feature)]
   tmpData <- tmpData[!(duplicated(tmpData)),]
   tmpData$qty <- 1
   # summing over multiple chosen columns for one input numeric variable
   groupingClm <- c('customer_id',feature)
   tmpGrouping <- ddply(tmpData, groupingClm, function(x) {colSums(x["qty"])} ,.parallel = cores > 1 )
-  colnames(tmpGrouping)[2] <- feature
-  return(tmpGrouping)
+  colnames(tmpGrouping)[2] <- "temp"
+  # multiply the origin binary values with "numeric" to get actual corresponding numeric values 
+  tmp = data.frame(cbind(tmpGrouping, data.frame(model.matrix(~temp-1, tmpGrouping))))
+  for (i in 4:ncol(tmp)){
+    tmp[,i] <- tmp[,i] * tmp[,"qty"]
+  }
+  # set column's names according to "numeric " chosen
+  # colnames(tmp)[4:ncol(tmp)] <- paste("totUniqueOrder.",sub("^....", "", colnames(tmp)[4:ncol(tmp)]),sep="")
+  colnames(tmp)[4:ncol(tmp)] <- sub("^....", "", colnames(tmp)[4:ncol(tmp)])
+  # summing multiple columns over unique customer id
+  groupingClm <- colnames(tmp)[4:ncol(tmp)] 
+  tmp <- setDT(tmp)[, lapply(.SD, sum), by=.(customer_id), .SDcols=c(groupingClm)]
+  # format back to frame
+  setDF(tmp)
+  # drop non-zero variance
+  tmp <- noZV(tmp)
+  # format dataframe
+  rownames(tmp) <- tmp$customer_id
+  tmp$customer_id <- NULL
+  return(tmp)
 }
 

@@ -4,7 +4,28 @@
 
 
 # svmPFitFull <- readRDS(paste('models/svmPFitFull.rds',5000,'.seed',123,'.rds',sep=''))
-# svmRFitFull <- readRDS(paste('models/svmRFitFull.rds',5000,'.seed',123,'.rds',sep=''))
+nnetFit <- readRDS(paste('models/nnetFit.rds',5000,'.seed',123,'.rds',sep=''))
+nnetFit2 <- readRDS(paste('models/nnetFit2.rds',5000,'.seed',123,'.rds',sep=''))
+nnetFit3 <- readRDS(paste('models/nnetFit3.rds',5000,'.seed',123,'.rds',sep=''))
+nnetFit4 <- readRDS(paste('models/nnetFit4.rds',5000,'.seed',123,'.rds',sep=''))
+
+nnetFit$results[which(nnetFit$results$Spec== max(nnetFit$results$Spec)),]
+nnetFit2$results[which(nnetFit2$results$Spec== max(nnetFit2$results$Spec)),]
+nnetFit3$results[which(nnetFit3$results$Spec== max(nnetFit3$results$Spec)),]
+nnetFit4$results[which(nnetFit4$results$Spec== max(nnetFit4$results$Spec)),]
+
+# size 1:5
+# decay : c(0, .1)
+
+glmnFit <- readRDS(paste('models/glmnFit.rds',5000,'.seed',123,'.rds',sep=''))
+
+glmnFit$results[which(glmnFit$results$Spec== max(glmnFit$results$Spec)),]
+
+svmRFit <- readRDS(paste('models/svmRFitFull.rds',5000,'.seed',123,'.rds',sep=''))
+svmPFit <- readRDS(paste('models/svmPFitFull.rds',5000,'.seed',123,'.rds',sep=''))
+
+svmRFit$results[which(svmRFit$results$Spec== max(svmRFit$results$Spec)),]
+svmPFit$results[which(svmPFit$results$Spec== max(svmPFit$results$Spec)),]
 
 # store users who bought new 2015 product
 tmp <- trans[which(trans$product_id %in% prodnew2015),]

@@ -35,8 +35,8 @@ load('data/trans.Rda')
 #########################################################################################
 #### Random select smaller set of 2014 customers for faster simulation (temp)
 set.seed(123)
-nsample <- 800; tmp.cust14 <- sample(cust14Filter,nsample)
-nsample1 <- 200; tmp.cust14.new15 <- sample(cust14BoughtnewProd,nsample1)
+nsample <- 50; tmp.cust14 <- sample(cust14Filter,nsample)
+nsample1 <- 50; tmp.cust14.new15 <- sample(cust14BoughtnewProd,nsample1)
 # random select and update the number of samples choosen
 tmp.cust14 <- union(tmp.cust14,tmp.cust14.new15); nsample <- nsample+nsample1
 
@@ -45,14 +45,10 @@ tmp.train <- trans[which(trans$customer_id %in% tmp.cust14),c('customer_id','ord
 # eliminate duplicate values while counting freq of same transaction
 tmp.train <- count(tmp.train)
 # tmp.train[which(tmp.train$customer_id == 'u19995'),] # check if a cust had both 2014 and 2015 transaction records
-tmp.train$orderYr <- ifelse((year(tmp.train$order_date)*100+month(tmp.train$order_date)) %between% c(201400,201412), 201412,
-                            ifelse((year(tmp.train$order_date)*100+month(tmp.train$order_date)) %between% c(201501,201505), 201504, 201512))
 
 ######################################################################
 #### For each transaction order, create unique key of single identifier
-tmp.train$key = paste(tmp.train$customer_id, tmp.train$orderYr, sep="")
-tmp.train$order_no <- NULL;tmp.train$order_date <- NULL
-tmp.train <- tmp.train[!duplicated(tmp.train),]
+tmp.train$key = paste(tmp.train$customer_id, tmp.train$order_no, sep="")
 
 ######################################################################
 #### Splitting data for constructing positive and negative target/class
@@ -69,7 +65,7 @@ amanNew <- sample(prodnew2015,10)
 # firstly, create target product_id for random sampling
 aman <- ddply(data1, .(product_id), function(x) c(numOrder = nrow(x)))
 aman <- aman[with(aman, order(-numOrder)), ]
-amanTop <- aman[10:35,1]
+amanTop <- aman[1:25,1]
 amanSample <- c(amanNew,amanTop)
 
 # create unique list of key identifier (cust_id + order_no)
@@ -96,16 +92,24 @@ data0$target <- rep(0,nrow(data0))
 #### Binding data1 and data0 together and get back the unique identifiers
 data <- rbind(data1,data0)
 data <- data[with(data, order(key)),]
+# colnames(tmp.train)[-4]
 
-data$customer_id <- substrLeft(as.character(data$key), n= 6)
-data$orderYr <- substrRight(as.character(data$key), n= 6)
+# temporary check : some error appears after incorporating sampling from new products
+tmpUnData <- data[!(duplicated(data))]
+tmpUnTrain <- unique(tmp.train[,colnames(tmp.train)[-4]])
+purchaseData <- merge(tmpUnData,tmpUnTrain, by=c("key"))
 
-purchaseData <- data
-purchaseData$key <- NULL
+# determine key variables to data splitting
+purchaseData$orderYr <- ifelse((year(purchaseData$order_date)*100+month(purchaseData$order_date)) %between% c(201400,201412), 201412,
+                    ifelse((year(purchaseData$order_date)*100+month(purchaseData$order_date)) %between% c(201501,201505), 201504, 201512))
 
 # Link back to key data to get unique identifiers
+# purchaseData <- merge(data,tmp.train[,-4], by=c("key"))
 save(purchaseData, file = paste('features/features.cust.item.random/purchaseData',nsample,'.seed',123,'.rda',sep=''))
-# nsample <- 100; load(paste('features/features.cust.item.random/purchaseData',nsample,'.seed',123,'.rda',sep=''))
+nsample <- 100; load(paste('features/features.cust.item.random/purchaseData',nsample,'.seed',123,'.rda',sep=''))
+
+# release some memory
+rm(tmpUnData, tmpUnTrain)
 #####################################################################################
 # Reformating purchaseData as dataframe and get the final form of targetData
 # Load product table
@@ -116,10 +120,6 @@ item.features = colnames(feat.item.global)[c(1:7,143:ncol(feat.item.global))]
 purchaseData <- data.frame(purchaseData)
 targetData <- join(purchaseData[,c("orderYr", "target","customer_id","product_id")], feat.item.global[,item.features], by=c('product_id'))
 targetData <- targetData[!(duplicated(targetData)),]
-
-# x <- targetData[targetData$customer_id == 'u102138' & targetData$product_id %in% c('p1','p2'),]
-# y <- purchaseData[purchaseData$customer_id == 'u102138' &  purchaseData$target ==0,]
-# z <- purchaseData[purchaseData$customer_id == 'u102138' & purchaseData$target ==1 ,]
 
 # purchaseTemp <- targetData
 targetTemp <- targetData
@@ -322,60 +322,19 @@ purchaseTemp <- getPurchaseData(feature = 'lens.brand', numeric = 'qty', holder 
 rm(list = ls(pattern = 'feat'))
 
 #####################################################################################
-##### Get user-dependent features for transaction data in the last 90 days
-# load related Rdata files
-
-temp = list.files(path = "features/features.cust.dependent/within90/", pattern="*.Rda")
-for (i in 1:length(temp)) {load(paste("features/features.cust.dependent/within90/",temp[i],sep=""))}
-
-purchaseTemp <- getPurchaseData90(feature = 'category', numeric = 'actual_qty', holder = featCatNbProdWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcategory', numeric = 'actual_qty', holder = featSubNbProdWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'manufacturer', numeric = 'actual_qty', holder = featManNbProdWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'brand', numeric = 'actual_qty', holder = featBrandNbProdWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcat.lens.manu', numeric = 'actual_qty', holder = featSubLensmanuNbProdWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'lens.brand.manu', numeric = 'actual_qty', holder = featLensBrandManuNbProdWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcat.brand', numeric = 'actual_qty', holder = featSubBrandNbProdWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'lens.brand', numeric = 'actual_qty', holder = featLensBrandNbProdWith90, customer = id)
-
-purchaseTemp <- getPurchaseData90(feature = 'category', numeric = 'global_line_total_exc_vat', holder = featCatTransSpentWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcategory', numeric = 'global_line_total_exc_vat', holder = featSubTransSpentWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'manufacturer', numeric = 'global_line_total_exc_vat', holder = featManTransSpentWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'brand', numeric = 'global_line_total_exc_vat', holder = featBrandTransSpentWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcat.lens.manu', numeric = 'global_line_total_exc_vat', holder = featSubLensmanuTransSpentWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'lens.brand.manu', numeric = 'global_line_total_exc_vat', holder = featLensBrandManuTransSpentWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcat.brand', numeric = 'global_line_total_exc_vat', holder = featSubBrandTransSpentWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'lens.brand', numeric = 'global_line_total_exc_vat', holder = featLensBrandTransSpentWith90, customer = id)
-
-purchaseTemp <- getPurchaseData90(feature = 'category', numeric = 'apprx_discount', holder = featCatDiscReceivedWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcategory', numeric = 'apprx_discount', holder = featSubDiscReceivedWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'manufacturer', numeric = 'apprx_discount', holder = featManDiscReceivedWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'brand', numeric = 'apprx_discount', holder = featBrandDiscReceivedWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcat.lens.manu', numeric = 'apprx_discount', holder = featSubLensmanuDiscReceivedWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'lens.brand.manu', numeric = 'apprx_discount', holder = featLensBrandManuDiscReceivedWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcat.brand', numeric = 'apprx_discount', holder = featSubBrandDiscReceivedWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'lens.brand', numeric = 'apprx_discount', holder = featLensBrandDiscReceivedWith90, customer = id)
-
-purchaseTemp <- getPurchaseData90(feature = 'category', numeric = 'qty', holder = featCatUniqueOrderWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcategory', numeric = 'qty', holder = featSubUniqueOrderWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'manufacturer', numeric = 'qty', holder = featManUniqueOrderWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'brand', numeric = 'qty', holder = featBrandUniqueOrderWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcat.lens.manu', numeric = 'qty', holder = featSubLensmanuUniqueOrderWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'lens.brand.manu', numeric = 'qty', holder = featLensBrandManuUniqueOrderWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'subcat.brand', numeric = 'qty', holder = featSubBrandUniqueOrderWith90, customer = id)
-purchaseTemp <- getPurchaseData90(feature = 'lens.brand', numeric = 'qty', holder = featLensBrandUniqueOrderWith90, customer = id)
-
-# release some memory
-rm(list = ls(pattern = 'feat'))
-
-#####################################################################################
 ### Get the key joint variables (e.g cat, subcat, bran) off from the table and store it
 targetTemp <- targetTemp[with(targetTemp, order(orderYr, customer_id, product_id)), ]
 purchaseTemp <- purchaseTemp[with(purchaseTemp, order(orderYr, customer_id, product_id)), ]
 
 targetFinalData <- merge(targetTemp,purchaseTemp)
 
-tmp <- names(targetData)[5:23]
+tmp <- names(targetData)[5:22]
 targetFinalData <- targetFinalData[, !(colnames(targetTemp) %in% tmp)]
+
+
+
+
+rm(temp1,temp2)
 
 # save original files before data splitting
 save(purchaseData, targetFinalData, targetData, file = paste('features/features.cust.item.random/purchaseData',nsample,'.seed',123,'.rda',sep=''))
@@ -383,11 +342,12 @@ save(purchaseData, targetFinalData, targetData, file = paste('features/features.
 
 #####################################################################################
 ## We'll split all of the 2014 data into the training set and a portion of the 2015 data too
+`%between%`<-function(x,rng) x>rng[1] & x<rng[2]
 
 # new variable to determine the year of the transaction for the sake of constructing train & validation
 # we use the first 4 month data in 2015 for tuning the algorithm and the rest for validation
-targetFinalData$is201504 <- ifelse(targetFinalData$orderYr == '201504', T,F)
-targetFinalData$is201512 <- ifelse(targetFinalData$orderYr == '201504' | targetFinalData$orderYr == '201512' , T,F)
+targetFinalData$is201504 <- ifelse(targetFinalData$orderYr == 201504, T,F)
+targetFinalData$is201512 <- ifelse(targetFinalData$orderYr == 201504 | targetFinalData$orderYr == 201512 , T,F)
 
 # create training data set
 training <- subset(targetFinalData, !is201512)
@@ -413,8 +373,6 @@ fullSet <- names(training)[!(names(training) %in% c("target","orderYr", "custome
 #####################################################################################
 #### Drop extreme correlated features
 predCorr <- cor(training[,fullSet])
-highCorr <- findCorrelation(predCorr, .99)
-fullSet <- fullSet[-highCorr]
 
 png(filename=paste('images/correlation.matrix.plot',nsample,'.seed',123,'.png',sep=''))
 corrplot(predCorr, order = "AOE", cl.ratio = 0.2, cl.align = "r")
@@ -425,20 +383,20 @@ for (i in 1:ncol(correlation_matrix)){correlation_matrix[i,i] <- NA}
 write.csv(correlation_matrix,'results/correlation.csv')
 
 # manual selection 
-# highCorr <- c("score.subcat.manu","score.brand","score.category.manu","score.lens.brand","score.category.brand",
-#               "score.cat.lens.manu","pastRec.lens.brand.qty","pastRec.lens.brand.apprx_discount","pastRec.brand.apprx_discount")
-# 
-# fullSet <- fullSet[!(fullSet %in% highCorr)]
+highCorr <- c("pastLensBrandUniqueOrder","pastLensBrandDiscReceived","pastBrandDiscReceived","pastSubBrandDiscReceived",
+              "pastLensBrandTransSpent","pastLensBrandNbProd","pastLensBrandNbProd","score.cat.lens.manu",
+              "score.lens.brand","score.brand","score.category.brand","score.cat.lens.manu","score.category.manu")
+
+fullSet <- fullSet[!(fullSet %in% highCorr)]
 # checker whether there is still correlated variables
-# predCorr <- cor(training[,fullSet])
-# # automatic detection for highly correlated variables
-# highCorr <- findCorrelation(predCorr, .99)
-# highCorr
-# correlation_matrix <- as.data.frame(round(predCorr, 2))
+predCorr <- cor(training[,fullSet])
+# automatic detection for highly correlated variables
+highCorr <- findCorrelation(predCorr, .99)
+highCorr
+correlation_matrix <- as.data.frame(round(predCorr, 2))
 
 isNZV <- nearZeroVar(training[,fullSet], saveMetrics = TRUE, freqCut = floor(nrow(training)/5))
 fullSet <-  rownames(subset(isNZV, !nzv))
-str(fullSet)
 
 reducedSet <- rownames(subset(isNZV, !nzv & freqRatio < floor(nrow(training)/50)))
 
@@ -458,9 +416,6 @@ testingFin[,obj]= factor(testingFin[,obj], labels = c('N','Y'))
 # rename the column names
 colnames(trainingFin) <- make.names(colnames(trainingFin))
 colnames(testingFin) <- make.names(colnames(testingFin))
-
-# Start writing to an output file
-sink('results/analysis-output.txt')
 
 #####################################################################################
 #### Begin Machine Learning Algorithm
@@ -523,7 +478,7 @@ ggplot(xgbTree$results, aes(x = as.factor(eta), y = max_depth, size = ROC, color
 dev.off()
 
 ### Model 2: Neural Networks
-nnetGrid <- expand.grid(size = 1:8, decay = c(0, .1, 1))
+nnetGrid <- expand.grid(size = 1:5, decay = c(0, .1))
 # nnetGrid <- expand.grid(size = 1:10, decay = c(0, .1, 1, 2))
 maxSize <- max(nnetGrid$size)
 
